@@ -85,7 +85,7 @@ public class Aplicativo {
 		return null;
 	}
         
-        public float CalcularProximidade(int paId){
+    public float CalcularProximidade(int paId){
             return (float)0.1;
         }
 

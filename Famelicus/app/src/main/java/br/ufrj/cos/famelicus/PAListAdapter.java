@@ -57,7 +57,7 @@ public class PAListAdapter extends BaseAdapter{
         holder.hatualizacao.setText(PA.getUltimaAtualizacao().toString());
         switch(PA.getSituacao().getSituacaodaFila()){
             case naoConhecido:
-                holder.img_situacao.setImageResource(R.mipmap.bateria_vazia);
+                holder.img_situacao.setImageResource(R.mipmap.nao_conhecido);
                 break;
             case vazia:
                 holder.img_situacao.setImageResource(R.mipmap.bateria_vazia);
@@ -78,13 +78,13 @@ public class PAListAdapter extends BaseAdapter{
 
         switch(PA.getSituacao().getFuncionamento()){
             case naoConhecido:
-                holder.img_estado.setImageResource(R.mipmap.ic_launcher);
+                holder.img_estado.setImageResource(R.mipmap.nao_conhecido);
                 break;
             case aberto:
-                holder.img_estado.setImageResource(R.mipmap.ic_launcher);
+                holder.img_estado.setImageResource(R.mipmap.aberto);
                 break;
             case fechado:
-                holder.img_estado.setImageResource(R.mipmap.ic_launcher);
+                holder.img_estado.setImageResource(R.mipmap.fechado);
                 break;
         }
 
