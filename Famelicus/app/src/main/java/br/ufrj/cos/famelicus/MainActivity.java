@@ -19,6 +19,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //Add here GoogleAPi Client Instance.
         situacaoFila = (Button) findViewById(R.id.situacaoFila);
         colaborar = (Button) findViewById(R.id.colaborar);
 
