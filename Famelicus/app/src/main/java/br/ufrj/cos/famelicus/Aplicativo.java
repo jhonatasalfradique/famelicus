@@ -117,7 +117,7 @@ public class Aplicativo {
                         mContext.startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
                     }
                 })
-                .setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                .setNegativeButton("Nao", new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
                         dialog.cancel();
                     }
