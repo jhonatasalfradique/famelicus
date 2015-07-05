@@ -14,8 +14,12 @@ public class Proxy {
 ////        }
 //    };
 
-    public void informarSituacao(){};
-    public void pedirVersaoBD(){};
+    public void informarSituacao(Voto voto){
+        //Enviar Voto para servidor
+    };
+    public int pedirVersaoBD(){
+        return 1;
+    };
 
     public String pedirBDPersistente(){
         //ArrayList<PontoDeAlimentacao> lista = new ArrayList();
