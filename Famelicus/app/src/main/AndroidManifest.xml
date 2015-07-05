@@ -24,6 +24,10 @@
             android:name=".ColaborarQRCODE"
             android:label="@string/title_activity_colaborar_qrcode" >
         </activity>
+        <activity
+            android:name=".SituacaoPaActivity"
+            android:label="@string/title_activity_situacao_pa" >
+        </activity>
     </application>
 
 </manifest>
