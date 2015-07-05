@@ -82,7 +82,13 @@ public class Aplicativo {
 	}
 
 	public PontoDeAlimentacao BuscarPontoAlimentacao(int id) {
-		return null;
+        PontoDeAlimentacao ret = new PontoDeAlimentacao();
+		for(PontoDeAlimentacao p: ListaPA){
+            if(p.getID()==id){
+                ret = p;
+            }
+        }
+        return ret;
 	}
 
 	public boolean VerificarHorarioValido(Date hora) {
