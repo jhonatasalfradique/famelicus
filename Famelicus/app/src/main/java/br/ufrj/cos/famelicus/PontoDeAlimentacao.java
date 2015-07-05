@@ -56,9 +56,11 @@ public class PontoDeAlimentacao {
     }
 
     public void AtualizarAtributosPersistentes(String nome, GeoPt localizacao) {
+        this.Nome = nome;
+        this.Localizacao = localizacao;
 
 	}
-
+    //Must be purged.
 	public List<String> Exibir() {
 		return null;
 	}
