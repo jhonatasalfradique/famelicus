@@ -3,6 +3,7 @@ package br.ufrj.cos.famelicus;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.location.LocationManager;
 import android.support.v7.app.ActionBarActivity;
@@ -35,6 +36,9 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(MainActivity.this, SituacaoFila.class);
+                Proxy proxy = new Proxy();
+                String jsonstring = proxy.pedirBDPersistente();
+                intent.putExtra("json", jsonstring);
                 startActivity(intent);
 
 
