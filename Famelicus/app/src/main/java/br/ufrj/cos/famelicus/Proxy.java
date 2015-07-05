@@ -3,9 +3,11 @@ package br.ufrj.cos.famelicus;
 import java.util.Date;
 import java.util.List;
 import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+
 import org.json.JSONArray;
 import java.util.ArrayList;
-
+import br.ufrj.cos.famelicus.Voto;
 public class Proxy {
 
 //    public List<SituacaodoPontodeAlimentacao> pedirSituacao(){
@@ -14,11 +16,19 @@ public class Proxy {
 ////        }
 //    };
 
-    public void informarSituacao(Voto voto){
-        //Enviar Voto para servidor
+    public void informarSituacao(int paid, int fila, int situacao ){
+        //Manually creating simple json to be send to the server.
+        String toServer = "{paid : ";
+        toServer += Integer.toString(paid) + ",";
+        toServer +=  "fila : " + Integer.toString(fila) + ",";
+        toServer += "situação : " + situacao +"}";
+        //Implement methor to send to server.
+        System.out.println(toServer);
     };
-    public int pedirVersaoBD(){
-        return 1;
+
+    public float pedirVersaoBD(){
+        float version = 0;
+        return version;
     };
 
     public String pedirBDPersistente(){
@@ -31,42 +41,9 @@ public class Proxy {
             geopt.setLatitude(i);
             geopt.setLongitude(i);
 
-            int situacaoInt = i%6;
-            int estadoInt = i%3;
-
             SituacaodoPontodeAlimentacao situacao = new SituacaodoPontodeAlimentacao();
-
-            switch(situacaoInt){
-                case 0:
-                    situacao.setSituacaodaFila(SituacaodoPontodeAlimentacao.SituacaodaFila.lotado);
-                    break;
-                case 1:
-                    situacao.setSituacaodaFila(SituacaodoPontodeAlimentacao.SituacaodaFila.filaGrande);
-                    break;
-                case 2:
-                    situacao.setSituacaodaFila(SituacaodoPontodeAlimentacao.SituacaodaFila.filaMedia);
-                    break;
-                case 3:
-                    situacao.setSituacaodaFila(SituacaodoPontodeAlimentacao.SituacaodaFila.filaPequena);
-                    break;
-                case 4:
-                    situacao.setSituacaodaFila(SituacaodoPontodeAlimentacao.SituacaodaFila.vazia);
-                    break;
-                case 5:
-                    situacao.setSituacaodaFila(SituacaodoPontodeAlimentacao.SituacaodaFila.naoConhecido);
-                    break;
-            }
-            switch(estadoInt){
-                case 0:
-                    situacao.setFuncionamento(SituacaodoPontodeAlimentacao.Funcionamento.aberto);
-                    break;
-                case 1:
-                    situacao.setFuncionamento(SituacaodoPontodeAlimentacao.Funcionamento.fechado);
-                    break;
-                case 2:
-                    situacao.setFuncionamento(SituacaodoPontodeAlimentacao.Funcionamento.naoConhecido);
-                    break;
-            }
+            situacao.setFuncionamento(SituacaodoPontodeAlimentacao.Funcionamento.aberto);
+            situacao.setSituacaodaFila(SituacaodoPontodeAlimentacao.SituacaodaFila.filaGrande);
 
             PontoDeAlimentacao p = new PontoDeAlimentacao();
             p.setNome("nome" + i);
