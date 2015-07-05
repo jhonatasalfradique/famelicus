@@ -27,18 +27,14 @@ public class Aplicativo {
 
 	private TratadorQRCode tratadorQRCode;
 
-<<<<<<< HEAD
     Context mContext;
     public Aplicativo(Context mContext){
         this.mContext = mContext;
     }
 
-    public boolean ValidarQRCode() {
-=======
-	//private InterfaceUsuario interface;
 
 	public boolean ValidarQRCode() {
->>>>>>> origin/guigs
+
 		return false;
 	}
 
