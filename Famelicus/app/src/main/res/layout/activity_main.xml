@@ -1,0 +1,30 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" android:paddingLeft="40dp"
+    android:paddingRight="40dp"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".TelaInicial"
+    android:orientation="vertical"
+    android:background="#424242">
+
+    <Button
+        android:id="@+id/situacaoFila"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_pedirInfo"
+        android:layout_gravity="center"
+        android:onClick="pedirInfo"
+        android:background="@drawable/custombutton"
+        android:textColor="#FAFAFA"
+        android:layout_marginBottom="10dp"/>
+
+    <Button
+        android:id="@+id/colaborar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/button_ColaborarViaQRC"
+        android:layout_gravity="center"
+        android:onClick="colaborarViaQRC"
+        android:background="@drawable/custombutton"
+        android:textColor="#FAFAFA"/>
+</LinearLayout>

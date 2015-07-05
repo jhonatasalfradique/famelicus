@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">Famelicus</string>
+
+    <string name="button_pedirInfo">Pedir Informação</string>
+    <string name="button_ColaborarViaQRC">Colaborar via QRCODE</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_situacao_fila">SituacaoFila</string>
+    <string name="title_activity_colaborar_qrcode">ColaborarQRCODE</string>
+</resources>
