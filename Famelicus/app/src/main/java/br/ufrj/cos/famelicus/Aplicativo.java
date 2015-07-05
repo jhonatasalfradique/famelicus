@@ -1,11 +1,20 @@
 package br.ufrj.cos.famelicus;
 
+import android.content.Intent;
+import android.util.Log;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Date;
 
 public class Aplicativo {
 
-	private List<PontoDeAlimentacao> ListaPA;
+	private ArrayList<PontoDeAlimentacao> ListaPA;
 
 	private int VersaoBD;
 
@@ -21,7 +30,14 @@ public class Aplicativo {
 
 	//private InterfaceUsuario interface;
 
-	public boolean ValidarQRCode() {
+
+    public Aplicativo() {
+        proxy = new Proxy();
+        ListaPA = new ArrayList();
+        this.setListaPA(proxy.pedirBDPersistente());
+    }
+
+    public boolean ValidarQRCode() {
 		return false;
 	}
 
@@ -34,7 +50,7 @@ public class Aplicativo {
 	}
 
 	private void SolicitarColaboracao(PontoDeAlimentacao pontoAlimentacao) {
-
+        //Intent intent = new Intent(MainActivity.this, ColaborarActivity.class);
 	}
 
 	private List<Integer> ListarPAVisiveis() {
@@ -57,8 +73,12 @@ public class Aplicativo {
 		return false;
 	}
 
-	private void AtualizarDadosDinamicos(List<Vector<Integer,Boolean,Integer>> Dados) {
-
+	private void AtualizarDadosDinamicos(List<SituacaodoPontodeAlimentacao> Dados) {
+        for(PontoDeAlimentacao p:ListaPA){
+            int i = 0;
+            p.setSituacao(Dados.get(i));
+            i++;
+        }
 	}
 
 	public PontoDeAlimentacao BuscarPontoAlimentacao(int id) {
@@ -82,11 +102,79 @@ public class Aplicativo {
 	}
 
 	public Boolean ChecarVisibilidade() {
-		return null;
+		Log.d("checar visibilidade", "checada");
+
+        return null;
 	}
         
     public float CalcularProximidade(int paId){
             return (float)0.1;
         }
 
+    public Date getHorariodeAtualizacaoBD() {
+        return HorariodeAtualizacaoBD;
+    }
+
+    public void setHorariodeAtualizacaoBD(Date horariodeAtualizacaoBD) {
+        HorariodeAtualizacaoBD = horariodeAtualizacaoBD;
+    }
+
+    public void setLocalizacao(GeoPt localizacao) {
+        Localizacao = localizacao;
+    }
+
+    public int getVersaoBD() {
+        return VersaoBD;
+    }
+
+    public void setVersaoBD(int versaoBD) {
+        VersaoBD = versaoBD;
+    }
+
+    public Proxy getProxy() {
+        return proxy;
+    }
+
+    public void setProxy(Proxy proxy) {
+        this.proxy = proxy;
+    }
+
+    public InterfaceGPS getInterfaceGPS() {
+        return interfaceGPS;
+    }
+
+    public void setInterfaceGPS(InterfaceGPS interfaceGPS) {
+        this.interfaceGPS = interfaceGPS;
+    }
+
+    public TratadorQRCode getTratadorQRCode() {
+        return tratadorQRCode;
+    }
+
+    public void setTratadorQRCode(TratadorQRCode tratadorQRCode) {
+        this.tratadorQRCode = tratadorQRCode;
+    }
+
+    public ArrayList<PontoDeAlimentacao> getListaPA() {
+        return ListaPA;
+    }
+
+    public void setListaPA(String listaJson) {
+        Gson gson = new Gson();
+        JsonParser parser = new JsonParser();
+        JsonElement jObj = parser.parse(listaJson).getAsJsonObject().get("values");
+        JsonArray jArray = jObj.getAsJsonArray();
+        //Log.d("jArray", jArray.toString());
+
+        //ArrayList<PontoDeAlimentacao> listData = new ArrayList();
+        if(!ListaPA.isEmpty()){
+            ListaPA.clear();
+        }
+        for(JsonElement obj: jArray){
+            PontoDeAlimentacao pa = gson.fromJson(obj, PontoDeAlimentacao.class);
+            ListaPA.add(pa);
+            Log.d("PA", pa.toString());
+        }
+
+    }
 }

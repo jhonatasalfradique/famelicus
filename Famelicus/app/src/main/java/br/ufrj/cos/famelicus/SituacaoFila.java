@@ -30,23 +30,13 @@ public class SituacaoFila extends ActionBarActivity {
         setContentView(R.layout.activity_situacao_fila);
 
         String json = getIntent().getStringExtra("json");
-        Gson gson = new Gson();
-        JsonParser parser = new JsonParser();
-        JsonElement jObj = parser.parse(json).getAsJsonObject().get("values");
-        JsonArray jArray = jObj.getAsJsonArray();
-        //Log.d("jArray", jArray.toString());
 
-        ArrayList<PontoDeAlimentacao> listData = new ArrayList();
-//
-        for(JsonElement obj: jArray){
-            PontoDeAlimentacao pa = gson.fromJson(obj, PontoDeAlimentacao.class);
-            listData.add(pa);
-            Log.d("PA", pa.toString());
-        }
+        Aplicativo famelicus = new Aplicativo();
+        famelicus.setListaPA(json);
         //
         // Log.d("listdata", listData.toString());
         final ListView listView = (ListView) findViewById(android.R.id.list);
-        listView.setAdapter(new PAListAdapter(this,listData));
+        listView.setAdapter(new PAListAdapter(this,famelicus.getListaPA()));
 
 
     }
