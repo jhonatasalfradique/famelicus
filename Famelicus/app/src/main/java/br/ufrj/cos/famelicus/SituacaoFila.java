@@ -4,12 +4,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -23,43 +29,25 @@ public class SituacaoFila extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_situacao_fila);
 
-        final ListView listview = (ListView) findViewById(R.id.listView);
-        String[] values = new String[] { "Burguesao", "Bandeijao CT", "Yakisoba",
-                "Anjinho", "Projectus" };
+        String json = getIntent().getStringExtra("json");
+        Gson gson = new Gson();
+        JsonParser parser = new JsonParser();
+        JsonElement jObj = parser.parse(json).getAsJsonObject().get("values");
+        JsonArray jArray = jObj.getAsJsonArray();
+        //Log.d("jArray", jArray.toString());
 
-
-        final ArrayList<String> list = new ArrayList<String>();
-        for (int i = 0; i < values.length; ++i) {
-            list.add(values[i]);
-        }
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                R.layout.palistadapter, R.id.NomePA, values);
-        listview.setAdapter(adapter);
-
-
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-            @Override
-            public void onItemClick(AdapterView<?> parent, final View view,
-                                    int position, long id) {
-
-
-                Intent intent = new Intent(SituacaoFila.this, SituacaoPaActivity.class);
-                startActivity(intent);
-//                final String item = (String) parent.getItemAtPosition(position);
-//                view.animate().setDuration(2000).alpha(0)
-//                        .withEndAction(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                list.remove(item);
+        ArrayList<PontoDeAlimentacao> listData = new ArrayList();
 //
-//                                view.setAlpha(1);
-//                            }
-//                        });
-            }
+        for(JsonElement obj: jArray){
+            PontoDeAlimentacao pa = gson.fromJson(obj, PontoDeAlimentacao.class);
+            listData.add(pa);
+            Log.d("PA", pa.toString());
+        }
+        //
+        // Log.d("listdata", listData.toString());
+        final ListView listView = (ListView) findViewById(android.R.id.list);
+        listView.setAdapter(new PAListAdapter(this,listData));
 
-        });
 
     }
 
@@ -87,29 +75,29 @@ public class SituacaoFila extends ActionBarActivity {
 }
 
 
-class StableArrayAdapter extends ArrayAdapter<String> {
-
-    HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
-
-    public StableArrayAdapter(Context context, int textViewResourceId,
-                              List<String> objects) {
-        super(context, textViewResourceId, objects);
-        for (int i = 0; i < objects.size(); ++i) {
-            mIdMap.put(objects.get(i), i);
-        }
-    }
-
-    @Override
-    public long getItemId(int position) {
-        String item = getItem(position);
-        return mIdMap.get(item);
-    }
-
-    @Override
-    public boolean hasStableIds() {
-        return true;
-    }
-
-}
+//class StableArrayAdapter extends ArrayAdapter<String> {
+//
+//    HashMap<String, Integer> mIdMap = new HashMap<String, Integer>();
+//
+//    public StableArrayAdapter(Context context, int textViewResourceId,
+//                              List<String> objects) {
+//        super(context, textViewResourceId, objects);
+//        for (int i = 0; i < objects.size(); ++i) {
+//            mIdMap.put(objects.get(i), i);
+//        }
+//    }
+//
+//    @Override
+//    public long getItemId(int position) {
+//        String item = getItem(position);
+//        return mIdMap.get(item);
+//    }
+//
+//    @Override
+//    public boolean hasStableIds() {
+//        return true;
+//    }
+//
+//}
 
 

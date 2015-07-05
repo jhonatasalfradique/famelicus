@@ -2,8 +2,28 @@ package br.ufrj.cos.famelicus;
 
 public class GeoPt {
 
-	public Float lat;
+    private  float latitude;
+    private float longitude;
 
-	public float longi;
+    public float getLongitude() {
+        return longitude;
+    }
 
+    public void setLongitude(float longitude) {
+        this.longitude = longitude;
+    }
+
+    public float getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(float latitude) {
+        this.latitude = latitude;
+    }
+
+    @Override
+    public String toString(){
+        return "latitude:" + latitude +", longitude:"+longitude;
+
+    };
 }
