@@ -13,8 +13,6 @@ public class Aplicativo {
 
 	private GeoPt Localizacao;
 
-	private PontoDeAlimentacao[] pontoDeAlimentacao;
-
 	private Proxy proxy;
 
 	private InterfaceGPS interfaceGPS;
@@ -84,5 +82,9 @@ public class Aplicativo {
 	public Boolean ChecarVisibilidade() {
 		return null;
 	}
+        
+        public float CalcularProximidade(int paId){
+            return (float)0.1;
+        }
 
 }

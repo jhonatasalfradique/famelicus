@@ -4,6 +4,14 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ListView;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonParser;
+
+import java.util.ArrayList;
 
 
 public class SituacaoPaActivity extends ActionBarActivity {
@@ -12,6 +20,20 @@ public class SituacaoPaActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_situacao_pa);
+        String json = getIntent().getStringExtra("json");
+        Gson gson = new Gson();
+        JsonParser parser = new JsonParser();
+        JsonElement jObj = parser.parse(json).getAsJsonObject().get("values");
+        JsonArray jArray = jObj.getAsJsonArray();
+
+
+        ArrayList<PontoDeAlimentacao> listData = new ArrayList();
+        for(JsonElement obj: jArray){
+            PontoDeAlimentacao pa = gson.fromJson(obj, PontoDeAlimentacao.class);
+            listData.add(pa);
+        }
+        final ListView listView = (ListView) findViewById(android.R.id.list);
+        listView.setAdapter(new PAListAdapter(this,listData));
     }
 
     @Override

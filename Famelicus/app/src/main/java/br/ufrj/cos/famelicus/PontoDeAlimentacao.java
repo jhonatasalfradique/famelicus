@@ -11,34 +11,61 @@ public class PontoDeAlimentacao {
 
 	private GeoPt Localizacao;
 
-	private boolean Situacao;
+	private SituacaodoPontodeAlimentacao Situacao;
 
-	private int Fila;
+	private String UltimaAtualizacao;
 
-	private int RegiaoVisibilidade;
+        public int getID() {
+            return ID;
+        }
 
-	private Date UltimaAtualizacao;
+        public void setID(int ID) {
+            this.ID = ID;
+        }
 
-	private Date UltimaColaboracao;
+        public String getNome() {
+            return Nome;
+        }
 
-	public void AtualizarAtributosPersistentes(String nome, GeoPt localizacao, int regiaoVisivel) {
+        public void setNome(String Nome) {
+            this.Nome = Nome;
+        }
 
-	}
+        public GeoPt getLocalizacao() {
+            return Localizacao;
+        }
 
-	public void SetSituacao(boolean aberto) {
+        public void setLocalizacao(GeoPt Localizacao) {
+            this.Localizacao = Localizacao;
+        }
 
-	}
+        public SituacaodoPontodeAlimentacao getSituacao() {
+            return Situacao;
+        }
 
-	public void SetFila(int estado) {
+        public void setSituacao(SituacaodoPontodeAlimentacao Situacao) {
+            this.Situacao = Situacao;
+        }
+
+    public String getUltimaAtualizacao() {
+        return UltimaAtualizacao;
+    }
+
+    public void setUltimaAtualizacao(String ultimaAtualizacao) {
+        UltimaAtualizacao = ultimaAtualizacao;
+    }
+
+    public void AtualizarAtributosPersistentes(String nome, GeoPt localizacao) {
 
 	}
 
 	public List<String> Exibir() {
 		return null;
 	}
-
-	public GeoPt getLocalizacao() {
-		return null;
-	}
+        
+        @Override
+        public String toString(){
+            return "[ID= " +ID + ", Nome= " + Nome +", localizacao={" + Localizacao.toString()+"}" + ", situacao={" + Situacao.toString()+"}" + ", UltimaAtualizacao="+ UltimaAtualizacao + "]";
+        }
 
 }

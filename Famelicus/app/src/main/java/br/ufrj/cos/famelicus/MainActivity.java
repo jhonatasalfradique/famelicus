@@ -28,6 +28,9 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(MainActivity.this, SituacaoFila.class);
+                Proxy proxy = new Proxy();
+                String jsonstring = proxy.pedirBDPersistente();
+                intent.putExtra("json", jsonstring);
                 startActivity(intent);
 
 
