@@ -1,6 +1,10 @@
 package br.ufrj.cos.famelicus;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.location.LocationManager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -19,6 +23,9 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        Aplicativo aplicativo = new Aplicativo(this);
+
+        aplicativo.LigarGPS();
         situacaoFila = (Button) findViewById(R.id.situacaoFila);
         colaborar = (Button) findViewById(R.id.colaborar);
 
@@ -69,4 +76,7 @@ public class MainActivity extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
 }

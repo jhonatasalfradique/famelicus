@@ -17,6 +17,8 @@ public class ColaborarQRCODE extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_colaborar_qrcode);
 
+        Aplicativo aplicativo = new Aplicativo(this);
+        
         IntentIntegrator.initiateScan(this);
     }
 

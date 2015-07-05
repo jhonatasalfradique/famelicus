@@ -1,7 +1,15 @@
 package br.ufrj.cos.famelicus;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.location.LocationManager;
+
 import java.util.List;
 import java.util.Date;
+
+import static android.content.Context.*;
 
 public class Aplicativo {
 
@@ -21,12 +29,22 @@ public class Aplicativo {
 
 	private TratadorQRCode tratadorQRCode;
 
-	public boolean ValidarQRCode() {
+    Context mContext;
+    public Aplicativo(Context mContext){
+        this.mContext = mContext;
+    }
+
+    public boolean ValidarQRCode() {
 		return false;
 	}
 
-	public void UsarGPS() {
+	public void LigarGPS() {
 
+        final LocationManager manager = (LocationManager)  mContext.getSystemService (Context.LOCATION_SERVICE);
+
+        if ( !manager.isProviderEnabled( LocationManager.GPS_PROVIDER ) ) {
+           buildAlertMessageNoGps();
+        }
 	}
 
 	public Boolean CompararLocalizacao(GeoPt location) {
@@ -85,4 +103,22 @@ public class Aplicativo {
 		return null;
 	}
 
+
+    private void buildAlertMessageNoGps() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+        builder.setMessage("Para o aplicativo funcionar corretamente, precisamos que o GPS esteja ligado, gostaria de liga-lo?")
+                .setCancelable(false)
+                .setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    public void onClick(@SuppressWarnings("unused") final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        mContext.startActivity(new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+                    }
+                })
+                .setNegativeButton("Não", new DialogInterface.OnClickListener() {
+                    public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
+                        dialog.cancel();
+                    }
+                });
+        final AlertDialog alert = builder.create();
+        alert.show();
+    }
 }
