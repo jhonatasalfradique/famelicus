@@ -17,6 +17,7 @@
         <item>Fila M�dia</item>
         <item>Fila Cheia</item>
         <item>Lotado</item>
+        <item>Indeterminado</item>
     </string-array>
     <string-array name="estado_array">
         <item>Aberto</item>

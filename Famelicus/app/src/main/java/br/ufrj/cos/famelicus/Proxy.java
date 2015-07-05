@@ -27,9 +27,42 @@ public class Proxy {
             geopt.setLatitude(i);
             geopt.setLongitude(i);
 
+            int situacaoInt = i%6;
+            int estadoInt = i%3;
+
             SituacaodoPontodeAlimentacao situacao = new SituacaodoPontodeAlimentacao();
-            situacao.setFuncionamento(SituacaodoPontodeAlimentacao.Funcionamento.aberto);
-            situacao.setSituacaodaFila(SituacaodoPontodeAlimentacao.SituacaodaFila.filaGrande);
+
+            switch(situacaoInt){
+                case 0:
+                    situacao.setSituacaodaFila(SituacaodoPontodeAlimentacao.SituacaodaFila.lotado);
+                    break;
+                case 1:
+                    situacao.setSituacaodaFila(SituacaodoPontodeAlimentacao.SituacaodaFila.filaGrande);
+                    break;
+                case 2:
+                    situacao.setSituacaodaFila(SituacaodoPontodeAlimentacao.SituacaodaFila.filaMedia);
+                    break;
+                case 3:
+                    situacao.setSituacaodaFila(SituacaodoPontodeAlimentacao.SituacaodaFila.filaPequena);
+                    break;
+                case 4:
+                    situacao.setSituacaodaFila(SituacaodoPontodeAlimentacao.SituacaodaFila.vazia);
+                    break;
+                case 5:
+                    situacao.setSituacaodaFila(SituacaodoPontodeAlimentacao.SituacaodaFila.naoConhecido);
+                    break;
+            }
+            switch(estadoInt){
+                case 0:
+                    situacao.setFuncionamento(SituacaodoPontodeAlimentacao.Funcionamento.aberto);
+                    break;
+                case 1:
+                    situacao.setFuncionamento(SituacaodoPontodeAlimentacao.Funcionamento.fechado);
+                    break;
+                case 2:
+                    situacao.setFuncionamento(SituacaodoPontodeAlimentacao.Funcionamento.naoConhecido);
+                    break;
+            }
 
             PontoDeAlimentacao p = new PontoDeAlimentacao();
             p.setNome("nome" + i);

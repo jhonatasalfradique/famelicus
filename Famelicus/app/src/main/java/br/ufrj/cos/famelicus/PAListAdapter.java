@@ -55,8 +55,38 @@ public class PAListAdapter extends BaseAdapter{
         PontoDeAlimentacao PA = (PontoDeAlimentacao) listData.get(position);
         holder.nome.setText(PA.getNome());
         holder.hatualizacao.setText(PA.getUltimaAtualizacao().toString());
-        holder.img_estado.setImageResource(R.mipmap.ic_launcher);
-        holder.img_situacao.setImageResource(R.mipmap.ic_launcher);
+        switch(PA.getSituacao().getSituacaodaFila()){
+            case naoConhecido:
+                holder.img_situacao.setImageResource(R.mipmap.bateria_vazia);
+                break;
+            case vazia:
+                holder.img_situacao.setImageResource(R.mipmap.bateria_vazia);
+                break;
+            case filaPequena:
+                holder.img_situacao.setImageResource(R.mipmap.bateria_pequena);
+                break;
+            case filaMedia:
+                holder.img_situacao.setImageResource(R.mipmap.bateria_media);
+                break;
+            case filaGrande:
+                holder.img_situacao.setImageResource(R.mipmap.bateria_grande);
+                break;
+            case lotado:
+                holder.img_situacao.setImageResource(R.mipmap.bateria_lotado);
+                break;
+        }
+
+        switch(PA.getSituacao().getFuncionamento()){
+            case naoConhecido:
+                holder.img_estado.setImageResource(R.mipmap.ic_launcher);
+                break;
+            case aberto:
+                holder.img_estado.setImageResource(R.mipmap.ic_launcher);
+                break;
+            case fechado:
+                holder.img_estado.setImageResource(R.mipmap.ic_launcher);
+                break;
+        }
 
         return convertView;
     }

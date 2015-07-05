@@ -19,6 +19,8 @@ public class Aplicativo {
 
 	private TratadorQRCode tratadorQRCode;
 
+	//private InterfaceUsuario interface;
+
 	public boolean ValidarQRCode() {
 		return false;
 	}
