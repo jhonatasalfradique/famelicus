@@ -1,11 +1,15 @@
 package br.ufrj.cos.famelicus;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 
 public class ColaborarQRCODE extends ActionBarActivity {
@@ -21,6 +25,8 @@ public class ColaborarQRCODE extends ActionBarActivity {
 
 
         IntentIntegrator.initiateScan(this);
+
+
     }
 
     @Override
@@ -44,4 +50,25 @@ public class ColaborarQRCODE extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+        if(result != null) {
+            if(result.getContents() == null) {
+                Log.d("ColaborarQRCODE", "Cancelled scan");
+                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+            } else {
+                Log.d("ColaborarQRCODE", "Scanned");
+                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Log.d("MainActivity", "Weird");
+            // This is important, otherwise the result will not be passed to the fragment
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
 }
