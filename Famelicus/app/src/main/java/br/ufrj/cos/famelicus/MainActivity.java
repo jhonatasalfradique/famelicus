@@ -18,15 +18,22 @@ public class MainActivity extends ActionBarActivity {
 
     Button situacaoFila;
     Button colaborar;
-
+    Aplicativo famelicus;
+    Servico servico;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+<<<<<<< HEAD
         Aplicativo aplicativo = new Aplicativo(this);
 
         aplicativo.LigarGPS();
+=======
+        famelicus = new Aplicativo();
+        Servico servico = new Servico(famelicus);
+        //servico.ChamarAplicativo();
+>>>>>>> origin/guigs
         situacaoFila = (Button) findViewById(R.id.situacaoFila);
         colaborar = (Button) findViewById(R.id.colaborar);
 
@@ -40,8 +47,6 @@ public class MainActivity extends ActionBarActivity {
                 String jsonstring = proxy.pedirBDPersistente();
                 intent.putExtra("json", jsonstring);
                 startActivity(intent);
-
-
             }
         });
 
