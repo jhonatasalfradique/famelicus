@@ -1,6 +1,7 @@
 package br.ufrj.cos.famelicus;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -16,15 +17,17 @@ public class ColaborarQRCODE extends ActionBarActivity {
 
     IntentIntegrator it;
 
+    String id;
+    Aplicativo aplicativo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_colaborar_qrcode);
 
-        Aplicativo aplicativo = new Aplicativo(this);
-
-
+        aplicativo = new Aplicativo(this);
         IntentIntegrator.initiateScan(this);
+
+
 
 
     }
@@ -63,6 +66,12 @@ public class ColaborarQRCODE extends ActionBarActivity {
             } else {
                 Log.d("ColaborarQRCODE", "Scanned");
                 Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                id = result.getContents();
+                Uri contentUri = data.getData();
+                startActivity(new Intent(this, ColaborarActivity.class)
+                        .setData(contentUri));
+
+
             }
         } else {
             Log.d("MainActivity", "Weird");

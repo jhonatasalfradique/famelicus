@@ -32,6 +32,11 @@
             android:name=".SituacaoPaActivity"
             android:label="@string/title_activity_situacao_pa" >
         </activity>
+
+        <activity
+            android:name=".ColaborarActivity"
+            android:label="@string/title_activity_situacao_pa" >
+        </activity>
     </application>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
 

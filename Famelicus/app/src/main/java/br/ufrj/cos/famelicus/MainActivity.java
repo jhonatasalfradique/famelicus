@@ -24,16 +24,13 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        famelicus = new Aplicativo(this);
 
-<<<<<<< HEAD
-        Aplicativo aplicativo = new Aplicativo(this);
+        famelicus.LigarGPS();
 
-        aplicativo.LigarGPS();
-=======
-        famelicus = new Aplicativo();
         Servico servico = new Servico(famelicus);
         //servico.ChamarAplicativo();
->>>>>>> origin/guigs
+
         situacaoFila = (Button) findViewById(R.id.situacaoFila);
         colaborar = (Button) findViewById(R.id.colaborar);
 

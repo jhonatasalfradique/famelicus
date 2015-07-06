@@ -26,8 +26,8 @@ public class Proxy {
         System.out.println(toServer);
     };
 
-    public float pedirVersaoBD(){
-        float version = 0;
+    public int pedirVersaoBD(){
+        int version = 0;
         return version;
     };
 

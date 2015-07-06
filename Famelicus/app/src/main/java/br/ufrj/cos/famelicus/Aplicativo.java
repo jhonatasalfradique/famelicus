@@ -46,7 +46,13 @@ public class Aplicativo {
         this.setListaPA(proxy.pedirBDPersistente());
     }
 
-    public boolean ValidarQRCode() {
+    public boolean ValidarQRCode(String id) {
+
+        if( id.equals("2")){
+
+            return true;
+        }
+
 		return false;
 	}
 
