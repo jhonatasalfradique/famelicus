@@ -20,9 +20,10 @@ import static android.content.Context.*;
 
 public class Aplicativo {
 
-	private ArrayList<PontoDeAlimentacao> ListaPA;
+    //bora usar ArrayList eh bem melhor, List nao tem nenhum metodo.
+	private ArrayList<PontoAlimentacao> ListaPA;
 
-	private int VersaoBD;
+	private double VersaoBD;
 
 	private Date HorariodeAtualizacaoBD;
 
@@ -37,13 +38,16 @@ public class Aplicativo {
     Context mContext;
     public Aplicativo(Context mContext){
         this.mContext = mContext;
+        proxy = new Proxy();
+        ListaPA = new ArrayList();
+        this.setListaPA(proxy.pedirSituacao());
     }
 
 
     public Aplicativo() {
         proxy = new Proxy();
         ListaPA = new ArrayList();
-        this.setListaPA(proxy.pedirBDPersistente());
+        this.setListaPA(proxy.pedirSituacao());
     }
 
     public boolean ValidarQRCode(String id) {
@@ -69,7 +73,7 @@ public class Aplicativo {
 		return null;
 	}
 
-	private void SolicitarColaboracao(PontoDeAlimentacao pontoAlimentacao) {
+	private void SolicitarColaboracao(PontoAlimentacao pontoAlimentacao) {
         //Intent intent = new Intent(MainActivity.this, ColaborarActivity.class);
 	}
 
@@ -77,15 +81,17 @@ public class Aplicativo {
 		return null;
 	}
 
+    //acho q nao precisa, podemos chamar diretamente do proxy quando usuario clicar no botao, pois proxy faz parte do aplicativo
 	public void InformarSituacao() {
 
 	}
 
+    //acho q nao precisa, podemos chamar diretamente do proxy quando usuario clicar no botao, pois proxy faz parte do aplicativo
 	public void PedirSituacao() {
 
 	}
 
-	public boolean VerificarVersaoBD(int versaoBDServidor) {
+	public boolean VerificarVersaoBD(double versaoBDServidor) {
 		return false;
 	}
 
@@ -93,18 +99,18 @@ public class Aplicativo {
 		return false;
 	}
 
-	private void AtualizarDadosDinamicos(List<SituacaodoPontodeAlimentacao> Dados) {
-        for(PontoDeAlimentacao p:ListaPA){
+	private void AtualizarDadosDinamicos(List<SituacaoDoPA> Dados) {
+        for(PontoAlimentacao p:ListaPA){
             int i = 0;
             p.setSituacao(Dados.get(i));
             i++;
         }
 	}
 
-	public PontoDeAlimentacao BuscarPontoAlimentacao(int id) {
-        PontoDeAlimentacao ret = new PontoDeAlimentacao();
-		for(PontoDeAlimentacao p: ListaPA){
-            if(p.getID()==id){
+	public PontoAlimentacao BuscarPontoAlimentacao(int id) {
+        PontoAlimentacao ret = new PontoAlimentacao();
+		for(PontoAlimentacao p: ListaPA){
+            if(p.getId()==id){
                 ret = p;
             }
         }
@@ -167,7 +173,7 @@ public class Aplicativo {
         Localizacao = localizacao;
     }
 
-    public int getVersaoBD() {
+    public double getVersaoBD() {
         return VersaoBD;
     }
 
@@ -199,27 +205,29 @@ public class Aplicativo {
         this.tratadorQRCode = tratadorQRCode;
     }
 
-    public ArrayList<PontoDeAlimentacao> getListaPA() {
+    public ArrayList<PontoAlimentacao> getListaPA() {
         return ListaPA;
     }
 
-    public void setListaPA(String listaJson) {
+    public void setListaPAString(String listaJson) {
         Gson gson = new Gson();
         JsonParser parser = new JsonParser();
-        JsonElement jObj = parser.parse(listaJson).getAsJsonObject().get("values");
+        JsonElement jObj = parser.parse(listaJson).getAsJsonObject().get("PAs");
         JsonArray jArray = jObj.getAsJsonArray();
         //Log.d("jArray", jArray.toString());
 
-        //ArrayList<PontoDeAlimentacao> listData = new ArrayList();
         if(!ListaPA.isEmpty()){
             ListaPA.clear();
         }
+
         for(JsonElement obj: jArray){
-            PontoDeAlimentacao pa = gson.fromJson(obj, PontoDeAlimentacao.class);
+            PontoAlimentacao pa = gson.fromJson(obj, PontoAlimentacao.class);
             ListaPA.add(pa);
             Log.d("PA", pa.toString());
         }
+    }
 
-
+    public void setListaPA(ArrayList<PontoAlimentacao> listaPA){
+        this.ListaPA = listaPA;
     }
 }

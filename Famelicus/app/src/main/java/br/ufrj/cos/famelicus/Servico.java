@@ -35,7 +35,7 @@ public class Servico extends Service{
 	}
 
 	public void ChamarAtualizacao() {
-        int versao = aplicativo.getProxy().pedirVersaoBD();
+        double versao = aplicativo.getProxy().pedirVersaoBD();
         aplicativo.VerificarVersaoBD(versao);
 	}
 

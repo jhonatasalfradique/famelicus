@@ -19,16 +19,16 @@ public class MainActivity extends ActionBarActivity {
     Button situacaoFila;
     Button colaborar;
     Aplicativo famelicus;
-    Servico servico;
+//    Servico servico;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         famelicus = new Aplicativo(this);
+        //famelicus.LigarGPS();
 
-        famelicus.LigarGPS();
-
-        Servico servico = new Servico(famelicus);
+        //Servico servico = new Servico(famelicus);
         //servico.ChamarAplicativo();
 
         situacaoFila = (Button) findViewById(R.id.situacaoFila);
@@ -40,8 +40,7 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View v) {
 
                 Intent intent = new Intent(MainActivity.this, SituacaoFila.class);
-                Proxy proxy = new Proxy();
-                String jsonstring = proxy.pedirBDPersistente();
+                String jsonstring = famelicus.getProxy().createretornasituacao();
                 intent.putExtra("json", jsonstring);
                 startActivity(intent);
             }
@@ -53,8 +52,6 @@ public class MainActivity extends ActionBarActivity {
 
                 Intent intent = new Intent(MainActivity.this, ColaborarQRCODE.class);
                 startActivity(intent);
-
-
             }
         });
 

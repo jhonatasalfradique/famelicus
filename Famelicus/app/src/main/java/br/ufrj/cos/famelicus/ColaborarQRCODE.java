@@ -26,10 +26,6 @@ public class ColaborarQRCODE extends ActionBarActivity {
 
         aplicativo = new Aplicativo(this);
         IntentIntegrator.initiateScan(this);
-
-
-
-
     }
 
     @Override

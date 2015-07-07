@@ -1,0 +1,115 @@
+package br.ufrj.cos.famelicus;
+
+import java.util.Date;
+import java.util.List;
+import br.ufrj.cos.famelicus.GeoPt;
+import br.ufrj.cos.famelicus.SituacaoDoPA;
+//import br.ufrj.cos.famelicus.Funcionamento;
+//import br.ufrj.cos.famelicus.SituacaoDaFila;
+import java.io.Serializable;
+import java.util.ArrayList;
+
+
+public class PontoAlimentacao  implements Serializable{
+    //private static final long serialVersionUID = -7788619177798333712L;
+
+
+    private int id;
+    private String nome;
+    private GeoPt localizacao;
+    private SituacaoDoPA situacao;
+    private String ultimaAtualizacao;
+    //private transient ArrayList<Voto> votos;
+
+    public PontoAlimentacao() {
+        //get the default SituacaoDoPA for init;
+        this.situacao = SituacaoDoPA.getDefault();
+
+        //create empty array of Votos
+        //this.votos = new ArrayList<Voto>();
+        //criando localizacao default
+        Float defaultXY = (float) 0;
+        this.localizacao = new GeoPt(defaultXY, defaultXY);
+    }
+
+
+    //only for test purposes
+//    public PontoAlimentacao(int id, String nome, GeoPt localizacao) {
+//        setId(id);
+//        setNome(nome);
+//        setLocalizacao(localizacao);
+//        this.situacao = SituacaoDoPA.getDefault();
+//        this.ultimaActualizacao = MyTimer.getCurrentTime();
+//        this.votos = new ArrayList<Voto>();
+//    }
+//    //only for test purpose
+//    public PontoAlimentacao(int id, String nome, GeoPt localizacao, int situacaoFila, int funcionamento ) {
+//        setId(id);
+//        setNome(nome);
+//        setLocalizacao(localizacao);
+//        this.ultimaActualizacao = MyTimer.getCurrentTime();
+//        this.situacao = new SituacaoDoPA(situacaoFila, funcionamento);
+//        this.votos = new ArrayList<Voto>();
+//    }
+
+
+    public void setId(int id) {this.id = id;}
+    public void setNome(String nome) {
+
+        this.nome = nome;
+    }
+    public void setLocalizacao(GeoPt localizacao) {this.localizacao = localizacao;}
+    public void setLocalizacao(Float lat, Float lng) {this.localizacao.set(lat, lng);}
+    public void setSituacao(SituacaoDoPA s){this.situacao = s;}
+    public void setSituacao(int situacaoFila, int funcionamento){
+        this.situacao.set(situacaoFila, funcionamento);
+    }
+    public void setultimaAtualizacao(String u){ this.ultimaAtualizacao = u;}
+    //public ArrayList<Voto> obterVotos(){return this.votos;}
+
+    //getters
+    public int getId() {return id;}
+    public String getNome() {return nome;}
+    public GeoPt getLocalizacao() {return localizacao;}
+    public SituacaoDoPA getSituacao(){return situacao;}
+    public SituacaoDoPA.Funcionamento getFuncionamento(){return situacao.funcionamento;}
+    public SituacaoDoPA.SituacaoDaFila getSituacaoDaFila(){return situacao.situacaoDaFila;}
+    public int getSituacaoDaFilaInt(){return situacao.situacaoDaFila.getValue();}
+    public int getFuncionamentoInt(){return situacao.funcionamento.getValue();}
+    public String getultimaAtualizacao(){return ultimaAtualizacao;}
+
+
+
+    public void AtualizarAtributosPersistentes(String nome, GeoPt localizacao) {
+        this.nome = nome;
+        this.localizacao = localizacao;
+    }
+
+    public void updateSituacaoDaFila(SituacaoDoPA.SituacaoDaFila s){
+        this.situacao.situacaoDaFila = s;
+    }
+    public void updateFuncionamento(SituacaoDoPA.Funcionamento f) {
+        this.situacao.funcionamento =f;
+    }
+
+//    public void addVoto(Voto v) {
+//        //ugly but easy :
+//        //should return boolean : success | error and send it back to the Response
+//        if(v.idPA != this.id) {
+//            System.out.println("addVoto PA error: idPa "+v.idPA +"!= this "+ this.id);
+//        }
+//        votos.add(v);
+//    }
+//
+//    public void limpiaVotos() {
+//        if(this.votos != null){
+//            this.votos.clear();
+//        }
+//    }
+
+    @Override
+    public String toString(){
+        return "[id= " +id + ", nome= " + nome +", localizacao={" + localizacao.toString()+"}" + ", situacao={" + situacao.toString()+"}" + ", ultimaAtualizacao="+ ultimaAtualizacao + "]";
+    }
+
+}

@@ -1,14 +1,19 @@
 package br.ufrj.cos.famelicus;
 
-import java.util.Date;
+import java.io.Serializable;
 
-/**
- * Created by guigs on 05/07/2015.
- */
-public class Voto {
-    private Date time;
-    private int idPA;
-    private SituacaodoPontodeAlimentacao situacaodoPontodeAlimentacao;
+public class Voto implements Serializable{
+    private static final long serialVersionUID = 1L;
+    public String hora;
+    public int idPA;
+    public SituacaoDoPA situacao;
 
+
+    public void setSituacao(SituacaoDoPA s){this.situacao = s;}
+    public String getHora(){return this.hora;}
+    public void setHora(String h){this.hora = h;}
+    public int getidPA(){return this.idPA;}
+    public void setidPA(int id){this.idPA = id;}
+    public SituacaoDoPA getSituacao(){return this.situacao;}
 
 }

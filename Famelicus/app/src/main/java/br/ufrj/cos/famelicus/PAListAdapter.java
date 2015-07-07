@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import br.ufrj.cos.famelicus.SituacaoDoPA;
 
 import java.util.ArrayList;
 
@@ -52,38 +53,38 @@ public class PAListAdapter extends BaseAdapter{
             holder = (ViewHolder) convertView.getTag();
         }
 
-        PontoDeAlimentacao PA = (PontoDeAlimentacao) listData.get(position);
+        PontoAlimentacao PA = (PontoAlimentacao) listData.get(position);
         holder.nome.setText(PA.getNome());
-        holder.hatualizacao.setText(PA.getUltimaAtualizacao().toString());
-        switch(PA.getSituacao().getSituacaodaFila()){
-            case naoConhecido:
+        holder.hatualizacao.setText(PA.getultimaAtualizacao());
+        switch(PA.getSituacao().getSituacaoDaFila()){
+            case NaoConhecido:
                 holder.img_situacao.setImageResource(R.mipmap.nao_conhecido);
                 break;
-            case vazia:
+            case Vazia:
                 holder.img_situacao.setImageResource(R.mipmap.bateria_vazia);
                 break;
-            case filaPequena:
+            case FilaPequena:
                 holder.img_situacao.setImageResource(R.mipmap.bateria_pequena);
                 break;
-            case filaMedia:
+            case FilaMedia:
                 holder.img_situacao.setImageResource(R.mipmap.bateria_media);
                 break;
-            case filaGrande:
+            case FilaGrande:
                 holder.img_situacao.setImageResource(R.mipmap.bateria_grande);
                 break;
-            case lotado:
+            case Lotado:
                 holder.img_situacao.setImageResource(R.mipmap.bateria_lotado);
                 break;
         }
 
         switch(PA.getSituacao().getFuncionamento()){
-            case naoConhecido:
+            case NaoConhecido:
                 holder.img_estado.setImageResource(R.mipmap.nao_conhecido);
                 break;
-            case aberto:
+            case Aberto:
                 holder.img_estado.setImageResource(R.mipmap.aberto);
                 break;
-            case fechado:
+            case Fechado:
                 holder.img_estado.setImageResource(R.mipmap.fechado);
                 break;
         }
