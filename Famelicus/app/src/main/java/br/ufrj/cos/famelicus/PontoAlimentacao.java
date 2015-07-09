@@ -19,14 +19,11 @@ public class PontoAlimentacao  implements Serializable{
     private GeoPt localizacao;
     private SituacaoDoPA situacao;
     private String ultimaAtualizacao;
-    //private transient ArrayList<Voto> votos;
 
     public PontoAlimentacao() {
         //get the default SituacaoDoPA for init;
         this.situacao = SituacaoDoPA.getDefault();
 
-        //create empty array of Votos
-        //this.votos = new ArrayList<Voto>();
         //criando localizacao default
         Float defaultXY = (float) 0;
         this.localizacao = new GeoPt(defaultXY, defaultXY);
@@ -92,20 +89,6 @@ public class PontoAlimentacao  implements Serializable{
         this.situacao.funcionamento =f;
     }
 
-//    public void addVoto(Voto v) {
-//        //ugly but easy :
-//        //should return boolean : success | error and send it back to the Response
-//        if(v.idPA != this.id) {
-//            System.out.println("addVoto PA error: idPa "+v.idPA +"!= this "+ this.id);
-//        }
-//        votos.add(v);
-//    }
-//
-//    public void limpiaVotos() {
-//        if(this.votos != null){
-//            this.votos.clear();
-//        }
-//    }
 
     @Override
     public String toString(){

@@ -37,15 +37,15 @@ public class Proxy {
     };
 
     //metodo para enviar um voto para servidor. Nao vejo para nosso caso a necessidade da classe voto. Arrumar
-    public void informarSituacao(Voto voto, double versao ){
+    public void informarSituacao(double versao, int paID, SituacaoDoPA situacao){
         Gson gson = new Gson();
         JsonObject object = new JsonObject();
 
-        SituacaoDoPA situacao = voto.getSituacao();
-        object.addProperty("versao", Double.toString(versao));
-        object.addProperty("id", voto.getidPA());
+        //SituacaoDoPA situacao = voto.getSituacao();
+        object.addProperty("v", Double.toString(versao));
+        object.addProperty("id", paID);
         object.addProperty("funcionamento", situacao.getFuncionamento().toString());
-        object.addProperty("situacaodaFila", situacao.getSituacaoDaFila().toString());
+        object.addProperty("situacaoDaFila", situacao.getSituacaoDaFila().toString());
 
         String jsonstring = gson.toJson(object);
         //Implement methor to send to server.
