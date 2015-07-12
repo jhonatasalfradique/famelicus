@@ -19,6 +19,7 @@ package br.ufrj.cos.famelicus;
         import com.google.android.gms.common.GooglePlayServicesUtil;
         import com.google.android.gms.common.api.GoogleApiClient;
         import com.google.android.gms.common.api.Status;
+        import com.google.android.gms.location.FusedLocationProviderApi;
         import com.google.android.gms.location.Geofence;
         import com.google.android.gms.location.LocationListener;
         import com.google.android.gms.location.LocationRequest;
@@ -36,6 +37,7 @@ public class MainActivity extends Activity
     private GoogleApiClient mClient;
     private Location mLastLocation;
     private LocationRequest mLocationRequest;
+    PendingIntent pendingIntent;
 
     Button situacaoFila;
     Button colaborar;
@@ -47,10 +49,8 @@ public class MainActivity extends Activity
 
         createLocationRequest();
         // you can also add more APIs and scopes here
-        mClient = new GoogleApiClient.Builder(this, this, this)
-                .addApi(LocationServices.API).addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .build();
+        buildGoogleAPI();
+        mClient.connect();
 
         situacaoFila = (Button) findViewById(R.id.situacaoFila);
         colaborar = (Button) findViewById(R.id.colaborar);
@@ -85,6 +85,9 @@ public class MainActivity extends Activity
 
     @Override
     protected void onStop() {
+        if (mClient != null) {
+            LocationServices.FusedLocationApi.removeLocationUpdates(mClient, pendingIntent);
+        }
         mClient.disconnect();
         super.onStop();
     }
@@ -93,7 +96,13 @@ public class MainActivity extends Activity
     @Override
     public void onConnected(Bundle connectionHint) {
         // this callback will be invoked when all specified services are connected
-        startUpdates();
+        //startUpdates();
+
+        Intent mUpdatesIntent = new Intent(this, Servico.class);
+        pendingIntent = PendingIntent.getService(getApplicationContext(), 0,
+                mUpdatesIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        LocationServices.FusedLocationApi.requestLocationUpdates(mClient, mLocationRequest, pendingIntent);
     }
 
     @Override
@@ -155,4 +164,12 @@ public class MainActivity extends Activity
 //        LocationServices.FusedLocationApi. removeLocationUpdates(
 //                mClient, mPendingIntent);
 //    }
+
+    public void buildGoogleAPI(){
+        mClient = new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(LocationServices.API)
+                .build();
+    }
 }

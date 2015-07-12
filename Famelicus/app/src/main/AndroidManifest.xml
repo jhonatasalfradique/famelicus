@@ -15,6 +15,7 @@
 
         <service
             android:name=".Servico"
+            android:enabled="true"
             android:exported="false"/>
 
         <activity
