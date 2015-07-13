@@ -18,6 +18,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Date;
 
@@ -62,7 +63,9 @@ public class Aplicativo{
 
     public boolean ValidarQRCode(String id) {
 
-        if( id.equals("2")){
+        String[] ids = {"1", "2", "3","4", "5", "6", "7", "8",
+                "9", "10", "11", "12", "13", "14", "15", "16"};
+        if( Arrays.asList(ids).contains(id)){
 
             return true;
         }

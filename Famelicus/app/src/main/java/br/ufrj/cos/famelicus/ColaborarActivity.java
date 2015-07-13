@@ -16,10 +16,13 @@ import android.widget.Toast;
 
 public class ColaborarActivity extends Activity {
 
+    Aplicativo aplicativo;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_colaborar);
+
+        aplicativo = new Aplicativo(this);
         String id =  this.getIntent().getStringExtra("id");
         Spinner estado_spinner = (Spinner) findViewById(R.id.estado_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -37,7 +40,8 @@ public class ColaborarActivity extends Activity {
         String situacao = situacao_spinner.getSelectedItem().toString();
 
         TextView textView = (TextView)findViewById(R.id.nomePA);
-        textView.setText(id);
+       // PontoAlimentacao pa = aplicativo.getPaByID(Integer.parseInt(id));
+        textView.setText("Restaurante");
 
         Button colaborar = (Button) findViewById(R.id.btcolaborar);
 

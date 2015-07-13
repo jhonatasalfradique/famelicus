@@ -38,6 +38,14 @@ public class SituacaoFila extends ActionBarActivity {
         final ListView listView = (ListView) findViewById(android.R.id.list);
         listView.setAdapter(new PAListAdapter(this,famelicus.getListaPA()));
 
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(SituacaoFila.this, SituacaoPaActivity.class);
+                startActivity(intent);
+            }
+        });
+
 
     }
 
