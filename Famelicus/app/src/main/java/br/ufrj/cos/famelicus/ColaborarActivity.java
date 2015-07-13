@@ -1,5 +1,7 @@
 package br.ufrj.cos.famelicus;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,7 +13,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 
-public class ColaborarActivity extends ActionBarActivity {
+public class ColaborarActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,9 +41,10 @@ public class ColaborarActivity extends ActionBarActivity {
         colaborar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Toast.makeText(ColaborarActivity.this, "Colaboracao Enviada", Toast.LENGTH_LONG).show();
-
+                Intent intent = new Intent(ColaborarActivity.this, MainActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         });
 

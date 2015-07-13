@@ -1,5 +1,8 @@
 package br.ufrj.cos.famelicus;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import java.util.Date;
 import java.util.List;
 import br.ufrj.cos.famelicus.GeoPt;
@@ -10,7 +13,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 
-public class PontoAlimentacao  implements Serializable{
+public class PontoAlimentacao{
     //private static final long serialVersionUID = -7788619177798333712L;
 
 
@@ -89,6 +92,27 @@ public class PontoAlimentacao  implements Serializable{
         this.situacao.funcionamento =f;
     }
 
+//    public int CompareTo(PontoAlimentacao other){
+//        int i = this.getFuncionamento().compareTo(other.getFuncionamento());
+//        if(i!=0) return i;
+//
+//        i = this.getSituacaoDaFila().compareTo(other.getSituacaoDaFila());
+//        if(i!=0) return i;
+//
+//        return i;
+//    }
+
+
+//    public void writeToParcel(Parcel out, int flags){
+//        out.writeString(Integer.toString(id));
+//        out.writeString(nome);
+//        out.writeString(localizacao.toString());
+//        out.writeString(situacao.toString());
+//        out.writeString(ultimaAtualizacao);
+//    }
+//    public int describeContents() {
+//        return 0;
+//    }
 
     @Override
     public String toString(){

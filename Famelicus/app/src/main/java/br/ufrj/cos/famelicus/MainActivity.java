@@ -85,9 +85,12 @@ public class MainActivity extends Activity
 
     @Override
     protected void onStop() {
-        if (mClient != null) {
-            LocationServices.FusedLocationApi.removeLocationUpdates(mClient, pendingIntent);
-        }
+        LocationServices.GeofencingApi.removeGeofences(
+                mClient,pendingIntent);
+
+//        if (mClient != null) {
+//            LocationServices.FusedLocationApi.removeLocationUpdates(mClient, pendingIntent);
+//        }
         mClient.disconnect();
         super.onStop();
     }
@@ -102,7 +105,23 @@ public class MainActivity extends Activity
         pendingIntent = PendingIntent.getService(getApplicationContext(), 0,
                 mUpdatesIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
-        LocationServices.FusedLocationApi.requestLocationUpdates(mClient, mLocationRequest, pendingIntent);
+        //LocationServices.FusedLocationApi.requestLocationUpdates(mClient, mLocationRequest, pendingIntent);
+
+        ArrayList<Geofence> geofences = new ArrayList<Geofence>();
+        for(PontoAlimentacao pa: famelicus.getListaPA()){
+            geofences.add(new Geofence.Builder()
+                    .setRequestId(Integer.toString(pa.getId()))
+                    .setCircularRegion(pa.getLocalizacao().getLat(), pa.getLocalizacao().getLng(), 50).setExpirationDuration(Geofence.NEVER_EXPIRE)
+                    .setTransitionTypes(Geofence.GEOFENCE_TRANSITION_ENTER
+                            | Geofence.GEOFENCE_TRANSITION_DWELL)
+                    .setLoiteringDelay(10000)
+                    .build());
+        }
+        PendingIntent pendingIntent = PendingIntent.getService(this, 0,
+                new Intent(this, Servico.class),
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        LocationServices.GeofencingApi.addGeofences(
+                mClient, geofences, pendingIntent);
     }
 
     @Override

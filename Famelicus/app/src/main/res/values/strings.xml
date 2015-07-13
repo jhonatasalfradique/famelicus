@@ -24,5 +24,6 @@
         <item>Fechado</item>
         <item>Indeterminado</item>
     </string-array>
+    <string name="title_activity_pas_visiveis">PAsVisiveis</string>
     
 </resources>

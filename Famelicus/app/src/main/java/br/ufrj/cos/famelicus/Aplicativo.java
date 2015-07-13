@@ -23,9 +23,12 @@ import java.util.Date;
 
 import static android.content.Context.*;
 
-public class Aplicativo extends Service{
+public class Aplicativo{
 
 	private ArrayList<PontoAlimentacao> ListaPA;
+
+    //variavel pra guardar a posicao do pa na lista, ordenado pelo id
+    private ArrayList<Integer> posicao;
 
 	private double VersaoBD;
 
@@ -39,15 +42,12 @@ public class Aplicativo extends Service{
 
 	private TratadorQRCode tratadorQRCode;
 
-    private static final String TAG = "TESTEGPS";
-    private LocationManager mLocationManager = null;
-    private static final int LOCATION_INTERVAL = 10000;
-    private static final float LOCATION_DISTANCE = 0;
+    private Context mContext;
 
-    Context mContext;
     public Aplicativo(Context mContext){
         this.mContext = mContext;
         proxy = new Proxy();
+        posicao = new ArrayList<Integer>();
         ListaPA = new ArrayList();
         this.setListaPA(proxy.pedirSituacao());
     }
@@ -56,6 +56,7 @@ public class Aplicativo extends Service{
     public Aplicativo() {
         proxy = new Proxy();
         ListaPA = new ArrayList();
+        posicao = new ArrayList<Integer>();
         this.setListaPA(proxy.pedirSituacao());
     }
 
@@ -78,12 +79,14 @@ public class Aplicativo extends Service{
         }
 	}
 
+    //acho q nao precisa mais dessa funcao, ja que api ja resolve esse problema
 	public Boolean CompararLocalizacao(GeoPt location) {
 		return null;
 	}
 
+
 	private void SolicitarColaboracao(PontoAlimentacao pontoAlimentacao) {
-        //Intent intent = new Intent(MainActivity.this, ColaborarActivity.class);
+        Intent intent = new Intent(mContext, ColaborarActivity.class);
 	}
 
 	private List<Integer> ListarPAVisiveis() {
@@ -148,9 +151,10 @@ public class Aplicativo extends Service{
         return null;
 	}
         
-    public float CalcularProximidade(int paId){
-            return (float)0.1;
-        }
+    public float CalcularProximidade(int paIndex){
+        PontoAlimentacao pa = this.ListaPA.get(paIndex);
+        return pa.getLocalizacao().distanceTo(this.getLocalizacao());
+    }
 
 
     private void buildAlertMessageNoGps() {
@@ -230,105 +234,35 @@ public class Aplicativo extends Service{
         }
 
         for(JsonElement obj: jArray){
+            int count =0;
             PontoAlimentacao pa = gson.fromJson(obj, PontoAlimentacao.class);
             ListaPA.add(pa);
+            posicao.add(pa.getId(),count);
             Log.d("PA", pa.toString());
+            count ++;
         }
     }
 
     public void setListaPA(ArrayList<PontoAlimentacao> listaPA){
+
         this.ListaPA = listaPA;
+        for(PontoAlimentacao pa: ListaPA){
+            int count =0;
+            posicao.add(pa.getId(),count);
+            Log.d("PA", pa.toString());
+            count ++;
+        }
     }
 
-    private class LocationListener implements android.location.LocationListener{
-        Location mLastLocation;
-        public LocationListener(String provider)
-        {
-            Log.e(TAG, "LocationListener " + provider);
-            mLastLocation = new Location(provider);
-        }
-        @Override
-        public void onLocationChanged(Location location)
-        {
-            Log.e(TAG, "onLocationChanged: " + location);
-            mLastLocation.set(location);
-        }
-        @Override
-        public void onProviderDisabled(String provider)
-        {
-            Log.e(TAG, "onProviderDisabled: " + provider);
-        }
-        @Override
-        public void onProviderEnabled(String provider)
-        {
-            Log.e(TAG, "onProviderEnabled: " + provider);
-        }
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras)
-        {
-            Log.e(TAG, "onStatusChanged: " + provider);
-        }
-    }
-    LocationListener[] mLocationListeners = new LocationListener[] {
-            new LocationListener(LocationManager.GPS_PROVIDER),
-            new LocationListener(LocationManager.NETWORK_PROVIDER)
-    };
-    @Override
-    public IBinder onBind(Intent arg0)
-    {
-        return null;
-    }
-    @Override
-    public int onStartCommand(Intent intent, int flags, int startId)
-    {
-        Log.e(TAG, "onStartCommand");
-        super.onStartCommand(intent, flags, startId);
-        return START_STICKY;
-    }
-    @Override
-    public void onCreate()
-    {
-        Log.e(TAG, "onCreate");
-        initializeLocationManager();
-        try {
-            mLocationManager.requestLocationUpdates(
-                    LocationManager.GPS_PROVIDER, LOCATION_INTERVAL, LOCATION_DISTANCE,
-                    mLocationListeners[0]);
-        } catch (java.lang.SecurityException ex) {
-            Log.i(TAG, "fail to request location update, ignore", ex);
-        } catch (IllegalArgumentException ex) {
-            Log.d(TAG, "gps provider does not exist " + ex.getMessage());
-        }
-        try {
-            mLocationManager.requestLocationUpdates(
-                    LocationManager.NETWORK_PROVIDER, LOCATION_INTERVAL, LOCATION_DISTANCE,
-                    mLocationListeners[1]);
-        } catch (java.lang.SecurityException ex) {
-            Log.i(TAG, "fail to request location update, ignore", ex);
-        } catch (IllegalArgumentException ex) {
-            Log.d(TAG, "network provider does not exist, " + ex.getMessage());
-        }
-
-    }
-    @Override
-    public void onDestroy()
-    {
-        Log.e(TAG, "onDestroy");
-        super.onDestroy();
-        if (mLocationManager != null) {
-            for (int i = 0; i < mLocationListeners.length; i++) {
-                try {
-                    mLocationManager.removeUpdates(mLocationListeners[i]);
-                } catch (Exception ex) {
-                    Log.i(TAG, "fail to remove location listners, ignore", ex);
-                }
+    public PontoAlimentacao getPaByID(int paId){
+        PontoAlimentacao ret = new PontoAlimentacao();
+        for(PontoAlimentacao obj:ListaPA){
+            if(obj.getId()==paId){
+                ret = obj;
             }
+
         }
+        return ret;
     }
-    private void initializeLocationManager() {
-        Log.e(TAG, "initializeLocationManager");
-        if (mLocationManager == null) {
-            mLocationManager = (LocationManager) getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
-        }
-    }
+
 }

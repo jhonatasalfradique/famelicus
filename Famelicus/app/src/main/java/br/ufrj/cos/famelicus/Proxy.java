@@ -12,7 +12,6 @@ import com.google.gson.JsonParser;
 
 import org.json.JSONArray;
 import java.util.ArrayList;
-import br.ufrj.cos.famelicus.Voto;
 public class Proxy {
 
     //metodo que chama retornarSituacao da classe ufrj.cos.famelicus.servidor.controller.GerenciadorDeSolicitacoes
@@ -154,6 +153,21 @@ public class Proxy {
             jsonarray.add(p);
 
         }
+        GeoPt geopt = new GeoPt(-22.8400541f, -43.2706262f);
+
+        int situacaoInt = 4;
+        int estadoInt = 1;
+
+        SituacaoDoPA situacao = new SituacaoDoPA(situacaoInt,estadoInt);
+
+        PontoAlimentacao p = new PontoAlimentacao();
+        p.setNome("sala");
+        p.setId(10);
+        p.setLocalizacao(geopt);
+        p.setSituacao(situacao);
+        p.setultimaAtualizacao("HO:RA");
+        jsonarray.add(p);
+
         listaPA = gson.toJsonTree(jsonarray);
 
         object.add("PAs", listaPA);

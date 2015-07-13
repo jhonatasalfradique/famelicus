@@ -10,10 +10,6 @@ public class InterfaceUsuario {
 
 	}
 
-	public Vector<Integer,Boolean,?> ResponderRequisicao(int voto, boolean estado) {
-		return null;
-	}
-
 	public int escolherPA() {
 		return 0;
 	}
