@@ -21,23 +21,35 @@ import com.google.android.gms.location.GeofencingEvent;
 import com.google.android.gms.location.LocationResult;
 
 public class Servico extends IntentService {
-
+    Location location;
     public Servico(){
-        super(Servico.class.getName());
+        super("Servico");
     }
 
     @Override
     protected void onHandleIntent(Intent intent) {
-        GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
-//        final Location location = intent.getParcelableExtra(FusedLocationProviderApi.KEY_LOCATION_CHANGED);
+        //GeofencingEvent geofencingEvent = GeofencingEvent.fromIntent(intent);
+//        Location location = intent.getParcelableExtra(FusedLocationProviderApi.KEY_LOCATION_CHANGED);
 //        String not = Double.toString(location.getLatitude()) + "," + Double.toString(location.getLongitude());
-//        //Log.d("notification", not);
+//        Log.d("notification", not);
 //        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 //        Builder noti = new NotificationCompat.Builder(this);
 //        noti.setContentTitle("Fused Location");
 //        noti.setContentText(location.getLatitude() + "," + location.getLongitude());
 //        noti.setSmallIcon(R.mipmap.ic_launcher);
 //        notificationManager.notify(1234, noti.build());
+        if (intent.hasExtra(FusedLocationProviderApi.KEY_LOCATION_CHANGED)) {
+
+            location = intent.getParcelableExtra(FusedLocationProviderApi.KEY_LOCATION_CHANGED);
+
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            Builder noti = new NotificationCompat.Builder(this);
+            noti.setContentTitle("Fused Location");
+            noti.setContentText(location.getLatitude() + "," + location.getLongitude());
+            noti.setSmallIcon(R.mipmap.ic_launcher);
+            notificationManager.notify(1234, noti.build());
+            Log.d("locationtesting", "accuracy: " + location.getAccuracy() + " lat: " + location.getLatitude() + " lon: " + location.getLongitude());
+        }
     }
 
 
