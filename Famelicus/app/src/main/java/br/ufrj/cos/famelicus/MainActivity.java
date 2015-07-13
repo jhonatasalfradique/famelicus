@@ -54,8 +54,9 @@ public class MainActivity extends Activity
 
         situacaoFila = (Button) findViewById(R.id.situacaoFila);
         colaborar = (Button) findViewById(R.id.colaborar);
-        famelicus = new Aplicativo();
+        famelicus = new Aplicativo(this);
 
+        famelicus.LigarGPS();
         situacaoFila.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
