@@ -47,8 +47,14 @@ public class PAsVisiveis extends ActionBarActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, final View view,
                                     int position, long id) {
-                final String item = (String) parent.getItemAtPosition(position);
-                Log.d("clicado no item ", Long.toString((id)));
+                //final String item = (String) parent.getItemAtPosition(position);
+                final PontoAlimentacao pa = (PontoAlimentacao) parent.getItemAtPosition(position);
+                Intent intent = new Intent(PAsVisiveis.this, ColaborarActivity.class);
+                //intent.setFlags(Intent.Flag);
+                intent.putExtra("id", Integer.toString(pa.getId()));
+                intent.putExtra("nome", pa.getNome());
+                startActivity(intent);
+                //Log.d("clicado no item ", Integer.toString(pa.getId()));
 
             }
         });

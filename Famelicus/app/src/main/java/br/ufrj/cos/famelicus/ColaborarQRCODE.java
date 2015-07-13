@@ -64,6 +64,9 @@ public class ColaborarQRCODE extends ActionBarActivity {
                 Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
                 id = result.getContents();
                 Uri contentUri = data.getData();
+                Intent intent = new Intent(this, ColaborarActivity.class);
+                intent.putExtra("id", id);
+                //intent.putExtra("nome", pa.getNome());
                 startActivity(new Intent(this, ColaborarActivity.class)
                         .setData(contentUri));
 

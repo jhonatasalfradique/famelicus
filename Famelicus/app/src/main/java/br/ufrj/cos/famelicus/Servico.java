@@ -89,6 +89,7 @@ public class Servico extends IntentService {
 
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         location = geofencingEvent.getTriggeringLocation();
+
         Builder noti = new NotificationCompat.Builder(this);
         noti.setContentTitle("Pas visiveis");
         noti.setContentIntent(pendingIntent);

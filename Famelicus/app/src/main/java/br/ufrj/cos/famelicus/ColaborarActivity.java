@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -19,7 +20,7 @@ public class ColaborarActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_colaborar);
-
+        String id =  this.getIntent().getStringExtra("id");
         Spinner estado_spinner = (Spinner) findViewById(R.id.estado_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
             R.array.estado_array, android.R.layout.simple_spinner_item);
@@ -35,6 +36,8 @@ public class ColaborarActivity extends Activity {
         String estado = estado_spinner.getSelectedItem().toString();
         String situacao = situacao_spinner.getSelectedItem().toString();
 
+        TextView textView = (TextView)findViewById(R.id.nomePA);
+        textView.setText(id);
 
         Button colaborar = (Button) findViewById(R.id.btcolaborar);
 

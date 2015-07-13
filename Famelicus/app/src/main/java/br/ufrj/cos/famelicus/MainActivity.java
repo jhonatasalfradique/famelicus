@@ -107,7 +107,8 @@ public class MainActivity extends Activity
                 mUpdatesIntent,
                 PendingIntent.FLAG_UPDATE_CURRENT);
         //LocationServices.FusedLocationApi.requestLocationUpdates(mClient, mLocationRequest, pendingIntent);
-
+//        Location location = LocationServices.FusedLocationApi.getLastLocation(mClient);
+//        Log.d("coordenadas esoo", location.getLatitude() + " lng: " + location.getLongitude());
         ArrayList<Geofence> geofences = new ArrayList<Geofence>();
         for(PontoAlimentacao pa: famelicus.getListaPA()){
             geofences.add(new Geofence.Builder()
