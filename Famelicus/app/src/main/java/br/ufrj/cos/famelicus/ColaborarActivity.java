@@ -30,7 +30,7 @@ public class ColaborarActivity extends Activity {
         ArrayAdapter<CharSequence> adapter2 = ArrayAdapter.createFromResource(this,
             R.array.situacao_array, android.R.layout.simple_spinner_item);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        situacao_spinner.setAdapter(adapter);
+        situacao_spinner.setAdapter(adapter2);
 
         String estado = estado_spinner.getSelectedItem().toString();
         String situacao = situacao_spinner.getSelectedItem().toString();
