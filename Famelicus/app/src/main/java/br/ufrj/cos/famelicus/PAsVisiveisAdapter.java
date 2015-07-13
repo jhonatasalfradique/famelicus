@@ -54,7 +54,7 @@ public class PAsVisiveisAdapter extends BaseAdapter {
         PontoAlimentacao PA = (PontoAlimentacao) listData.get(position);
  //       String id = Integer.toString(PA.getId());
         holder.nome_pa.setText(PA.getNome());
-        holder.id_pa.setText(PA.getId());
+        holder.id_pa.setText(Integer.toString(PA.getId()));
 
 
         return convertView;

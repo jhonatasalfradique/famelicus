@@ -42,16 +42,16 @@ public class PAsVisiveis extends ActionBarActivity {
         final ListView listView = (ListView)findViewById(R.id.list_PAsVisiveis);
         final PAsVisiveisAdapter adapter = new PAsVisiveisAdapter(this, listaPA);
         listView.setAdapter(adapter);
-//        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, final View view,
-//                                    int position, long id) {
-//                final String item = (String) parent.getItemAtPosition(position);
-//                Log.d("clicado no item ", Long.toString((id)));
-//
-//            }
-//        });
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, final View view,
+                                    int position, long id) {
+                final String item = (String) parent.getItemAtPosition(position);
+                Log.d("clicado no item ", Long.toString((id)));
+
+            }
+        });
     }
 
     @Override
