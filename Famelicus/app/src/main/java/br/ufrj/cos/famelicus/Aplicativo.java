@@ -169,6 +169,9 @@ public class Aplicativo{
                 .setNegativeButton("Nao", new DialogInterface.OnClickListener() {
                     public void onClick(final DialogInterface dialog, @SuppressWarnings("unused") final int id) {
                         dialog.cancel();
+                        android.os.Process.killProcess(android.os.Process.myPid());
+                        System.exit(1);
+
                     }
                 });
         final AlertDialog alert = builder.create();

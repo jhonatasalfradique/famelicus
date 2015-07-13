@@ -153,6 +153,8 @@ public class Proxy {
             jsonarray.add(p);
 
         }
+        //casa do guilhereme -22.8400541f, -43.2706262f
+        //casa de jhonatas -22.4979104f, 43.060696f
         GeoPt geopt = new GeoPt(-22.8400541f, -43.2706262f);
 
         int situacaoInt = 4;
