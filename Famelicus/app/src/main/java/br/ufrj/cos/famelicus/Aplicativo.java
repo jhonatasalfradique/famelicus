@@ -262,6 +262,7 @@ public class Aplicativo{
         for(PontoAlimentacao obj:ListaPA){
             if(obj.getId()==paId){
                 ret = obj;
+                break;
             }
 
         }
