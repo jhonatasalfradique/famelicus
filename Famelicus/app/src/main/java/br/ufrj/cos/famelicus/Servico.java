@@ -33,7 +33,6 @@ public class Servico extends IntentService {
 
     public Servico(){
         super("Servico");
-        famelicus = new Aplicativo();
     }
 
     @Override
@@ -61,7 +60,12 @@ public class Servico extends IntentService {
 //            Log.d("locationtesting", "accuracy: " + location.getAccuracy() + " lat: " + location.getLatitude() + " lon: " + location.getLongitude());
 //        }
 
+        String famelicusString = intent.getStringExtra("listaPA");
+        double versao = Double.parseDouble(intent.getStringExtra("versao"));
+        famelicus = new Aplicativo(famelicusString, versao);
+
         Intent notificationIntent = new Intent(this, PAsVisiveis.class );
+        notificationIntent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
         //this.startActivity(notificationIntent);
 
         ArrayList<PontoAlimentacao> lista = new ArrayList<PontoAlimentacao>();
@@ -84,6 +88,8 @@ public class Servico extends IntentService {
         //notificationIntent.putParcelableArrayListExtra("listaPA", lista);
         Log.d("extras pa", jsonstring);
         notificationIntent.putExtra("listaPA", jsonstring);
+        notificationIntent.putExtra("versao", Double.toString(famelicus.getVersaoBD()));
+
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, notificationIntent, PendingIntent.FLAG_CANCEL_CURRENT);
 

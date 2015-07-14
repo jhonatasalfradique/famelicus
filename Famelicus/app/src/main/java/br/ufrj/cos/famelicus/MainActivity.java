@@ -55,6 +55,8 @@ public class MainActivity extends Activity
         situacaoFila = (Button) findViewById(R.id.situacaoFila);
         colaborar = (Button) findViewById(R.id.colaborar);
         famelicus = new Aplicativo(this);
+        //final String famelicusString = famelicus.generateString();
+        //final String versao = Double.toString(famelicus.getVersaoBD());
 
         famelicus.LigarGPS();
         situacaoFila.setOnClickListener(new View.OnClickListener() {
@@ -62,8 +64,13 @@ public class MainActivity extends Activity
             public void onClick(View v) {
 
                 Intent intent = new Intent(MainActivity.this, SituacaoFila.class);
-                String jsonstring = famelicus.getProxy().createretornasituacao();
-                intent.putExtra("json", jsonstring);
+                //String jsonstring = famelicus.getProxy().createretornasituacao();
+                //intent.putExtra("json", jsonstring);
+                String famelicusString = famelicus.generateString();
+                String versao = Double.toString(famelicus.getVersaoBD());
+                intent.putExtra("listaPA", famelicusString);
+                intent.putExtra("versao", versao);
+
                 startActivity(intent);
             }
         });
@@ -73,6 +80,10 @@ public class MainActivity extends Activity
             public void onClick(View v) {
 
                 Intent intent = new Intent(MainActivity.this, ColaborarQRCODE.class);
+                String famelicusString = famelicus.generateString();
+                String versao = Double.toString(famelicus.getVersaoBD());
+                intent.putExtra("listaPA", famelicusString);
+                intent.putExtra("versao", versao);
                 startActivity(intent);
             }
         });
@@ -102,10 +113,16 @@ public class MainActivity extends Activity
         // this callback will be invoked when all specified services are connected
         //startUpdates();
 
-        Intent mUpdatesIntent = new Intent(this, Servico.class);
-        pendingIntent = PendingIntent.getService(getApplicationContext(), 0,
-                mUpdatesIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
+//        Intent mUpdatesIntent = new Intent(this, Servico.class);
+        String famelicusString = famelicus.generateString();
+        String versao = Double.toString(famelicus.getVersaoBD());
+//        mUpdatesIntent.putExtra("listaPA", famelicusString);
+//        mUpdatesIntent.putExtra("versao", versao);
+//        //Log.d("versao", versao);
+//        //mUpdatesIntent.addFlags()
+//        PendingIntent pendingIntent = PendingIntent.getService(this, 0,
+//                mUpdatesIntent,
+//                PendingIntent.FLAG_UPDATE_CURRENT);
         //LocationServices.FusedLocationApi.requestLocationUpdates(mClient, mLocationRequest, pendingIntent);
 //        Location location = LocationServices.FusedLocationApi.getLastLocation(mClient);
 //        Log.d("coordenadas esoo", location.getLatitude() + " lng: " + location.getLongitude());
@@ -119,8 +136,8 @@ public class MainActivity extends Activity
                     .setLoiteringDelay(10000)
                     .build());
         }
-        PendingIntent pendingIntent = PendingIntent.getService(this, 0,
-                new Intent(this, Servico.class),
+        pendingIntent = PendingIntent.getService(this, 0,
+                new Intent(this, Servico.class).putExtra("listaPA", famelicusString).putExtra("versao", versao),
                 PendingIntent.FLAG_UPDATE_CURRENT);
         LocationServices.GeofencingApi.addGeofences(
                 mClient, geofences, pendingIntent);

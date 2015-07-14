@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,8 +23,14 @@ public class ColaborarActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_colaborar);
 
-        aplicativo = new Aplicativo(this);
-        String id =  this.getIntent().getStringExtra("id");
+        double versao = Double.parseDouble(getIntent().getStringExtra("versao"));
+        String famelicusString = getIntent().getStringExtra("listaPA");
+        int id =  Integer.parseInt(this.getIntent().getStringExtra("id"));
+
+        aplicativo = new Aplicativo(famelicusString, versao);
+        //Log.d("estou aqui", "hello");
+        PontoAlimentacao pa = aplicativo.getPaByID(id);
+
         Spinner estado_spinner = (Spinner) findViewById(R.id.estado_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
             R.array.estado_array, android.R.layout.simple_spinner_item);
@@ -41,7 +48,7 @@ public class ColaborarActivity extends Activity {
 
         TextView textView = (TextView)findViewById(R.id.nomePA);
        // PontoAlimentacao pa = aplicativo.getPaByID(Integer.parseInt(id));
-        textView.setText("Restaurante");
+        textView.setText(pa.getNome());
 
         Button colaborar = (Button) findViewById(R.id.btcolaborar);
 
@@ -50,13 +57,20 @@ public class ColaborarActivity extends Activity {
             public void onClick(View v) {
                 Toast.makeText(ColaborarActivity.this, "Colaboracao Enviada", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(ColaborarActivity.this, MainActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
                 startActivity(intent);
+
             }
         });
 
 
 
+    }
+
+    @Override
+    protected void onPause(){
+        super.onPause();
+        this.finish();
     }
 
     @Override

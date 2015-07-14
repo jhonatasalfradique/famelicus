@@ -155,7 +155,7 @@ public class Proxy {
         }
         //casa do guilhereme -22.8400541f, -43.2706262f
         //casa de jhonatas -22.4979104f, 43.060696f
-        GeoPt geopt = new GeoPt(-22.8615359f, -43.2283747f);
+        GeoPt geopt = new GeoPt(-22.8400541f, -43.2706262f);
 
         int situacaoInt = 4;
         int estadoInt = 1;
@@ -163,7 +163,7 @@ public class Proxy {
         SituacaoDoPA situacao = new SituacaoDoPA(situacaoInt,estadoInt);
 
         PontoAlimentacao p = new PontoAlimentacao();
-        p.setNome("Esoo sala");
+        p.setNome("sala");
         p.setId(10);
         p.setLocalizacao(geopt);
         p.setSituacao(situacao);

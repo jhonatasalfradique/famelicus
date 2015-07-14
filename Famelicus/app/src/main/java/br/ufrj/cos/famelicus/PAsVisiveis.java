@@ -1,5 +1,6 @@
 package br.ufrj.cos.famelicus;
 
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -26,21 +27,26 @@ public class PAsVisiveis extends ActionBarActivity {
         setContentView(R.layout.activity_pas_visiveis);
         //ArrayList<PontoAlimentacao> list = getIntent().getParcelableArrayListExtra("listaPA");
 
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        notificationManager.cancel(1234);
         String json = getIntent().getStringExtra("listaPA");
-        //Log.d("on new intent", json);
-        ArrayList<PontoAlimentacao> listaPA = new ArrayList();
-        Gson gson = new Gson();
-        JsonParser parser = new JsonParser();
-        JsonElement jObj = parser.parse(json).getAsJsonObject().get("PAs");
-        JsonArray jArray = jObj.getAsJsonArray();
+        final Double versao = Double.parseDouble(getIntent().getStringExtra("versao"));
 
-        for(JsonElement obj: jArray){
-            PontoAlimentacao pa = gson.fromJson(obj, PontoAlimentacao.class);
-            listaPA.add(pa);
-        }
+        //Log.d("on new intent", json);
+        final Aplicativo famelicus = new Aplicativo(json, versao);
+//        ArrayList<PontoAlimentacao> listaPA = new ArrayList();
+//        Gson gson = new Gson();
+//        JsonParser parser = new JsonParser();
+//        JsonElement jObj = parser.parse(json).getAsJsonObject().get("PAs");
+//        JsonArray jArray = jObj.getAsJsonArray();
+//
+//        for(JsonElement obj: jArray){
+//            PontoAlimentacao pa = gson.fromJson(obj, PontoAlimentacao.class);
+//            listaPA.add(pa);
+//        }
 
         final ListView listView = (ListView)findViewById(R.id.list_PAsVisiveis);
-        final PAsVisiveisAdapter adapter = new PAsVisiveisAdapter(this, listaPA);
+        final PAsVisiveisAdapter adapter = new PAsVisiveisAdapter(this, famelicus.getListaPA());
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -52,12 +58,19 @@ public class PAsVisiveis extends ActionBarActivity {
                 Intent intent = new Intent(PAsVisiveis.this, ColaborarActivity.class);
                 //intent.setFlags(Intent.Flag);
                 intent.putExtra("id", Integer.toString(pa.getId()));
-                intent.putExtra("nome", pa.getNome());
+                intent.putExtra("listaPA", famelicus.generateString());
+                intent.putExtra("versao", Double.toString(famelicus.getVersaoBD()));
                 startActivity(intent);
-                //Log.d("clicado no item ", Integer.toString(pa.getId()));
+                Log.d("clicado no item ", Integer.toString(pa.getId()));
 
             }
         });
+    }
+
+    @Override
+    protected void onPause(){
+        //this.finish();
+        super.onPause();
     }
 
     @Override

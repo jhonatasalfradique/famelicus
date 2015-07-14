@@ -29,10 +29,10 @@ public class SituacaoFila extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_situacao_fila);
 
-        String json = getIntent().getStringExtra("json");
-
-        Aplicativo famelicus = new Aplicativo();
-        famelicus.setListaPAString(json);
+        String famelicusString = getIntent().getStringExtra("listaPA");
+        double versao = Double.parseDouble(getIntent().getStringExtra("versao"));
+        Aplicativo famelicus = new Aplicativo(famelicusString, versao);
+        //famelicus.setListaPAString(json);
         //
         // Log.d("listdata", listData.toString());
         final ListView listView = (ListView) findViewById(android.R.id.list);

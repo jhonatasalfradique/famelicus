@@ -24,7 +24,10 @@ public class ColaborarQRCODE extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_colaborar_qrcode);
 
-        aplicativo = new Aplicativo(this);
+        //aplicativo = new Aplicativo(this);
+        String famelicusString = getIntent().getStringExtra("listaPA");
+        double versao = Double.parseDouble(getIntent().getStringExtra("versao"));
+        aplicativo = new Aplicativo(famelicusString, versao);
         IntentIntegrator.initiateScan(this);
     }
 
@@ -55,6 +58,7 @@ public class ColaborarQRCODE extends ActionBarActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+
         if(result != null) {
             if(result.getContents() == null) {
                 Log.d("ColaborarQRCODE", "Cancelado");
@@ -75,6 +79,11 @@ public class ColaborarQRCODE extends ActionBarActivity {
 
                     Intent intent = new Intent(this, ColaborarActivity.class);
                     intent.putExtra("id", id);
+                    PontoAlimentacao pa = aplicativo.getPaByID(Integer.parseInt(id));
+                    String famelicusString = aplicativo.generateString();
+                    String versao = Double.toString(aplicativo.getVersaoBD());
+                    intent.putExtra("listaPA", famelicusString);
+                    intent.putExtra("versao", versao);
                     //intent.putExtra("nome", pa.getNome());
                     startActivity(new Intent(this, ColaborarActivity.class)
                             .setData(contentUri));
@@ -95,6 +104,7 @@ public class ColaborarQRCODE extends ActionBarActivity {
             // This is important, otherwise the result will not be passed to the fragment
             super.onActivityResult(requestCode, resultCode, data);
         }
+        this.finish();
     }
 
 }
