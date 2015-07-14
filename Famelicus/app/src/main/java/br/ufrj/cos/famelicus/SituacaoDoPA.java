@@ -101,7 +101,7 @@ public class SituacaoDoPA {
         public int getValue(){return value;}
     }
 
-    public static enum Funcionamento {
+    public enum Funcionamento {
         @SerializedName("-1")
         NaoConhecido (-1),
         @SerializedName("0")

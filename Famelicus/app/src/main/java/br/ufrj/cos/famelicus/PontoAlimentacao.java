@@ -59,11 +59,11 @@ public class PontoAlimentacao{
         this.nome = nome;
     }
     public void setLocalizacao(GeoPt localizacao) {this.localizacao = localizacao;}
-    public void setLocalizacao(Float lat, Float lng) {this.localizacao.set(lat, lng);}
+    //public void setLocalizacao(Float lat, Float lng) {this.localizacao.set(lat, lng);}
     public void setSituacao(SituacaoDoPA s){this.situacao = s;}
-    public void setSituacao(int situacaoFila, int funcionamento){
-        this.situacao.set(situacaoFila, funcionamento);
-    }
+    //public void setSituacao(int situacaoFila, int funcionamento){
+      //  this.situacao.set(situacaoFila, funcionamento);
+    //}
     public void setultimaAtualizacao(String u){ this.ultimaAtualizacao = u;}
     //public ArrayList<Voto> obterVotos(){return this.votos;}
 
@@ -74,8 +74,8 @@ public class PontoAlimentacao{
     public SituacaoDoPA getSituacao(){return situacao;}
     public SituacaoDoPA.Funcionamento getFuncionamento(){return situacao.funcionamento;}
     public SituacaoDoPA.SituacaoDaFila getSituacaoDaFila(){return situacao.situacaoDaFila;}
-    public int getSituacaoDaFilaInt(){return situacao.situacaoDaFila.getValue();}
-    public int getFuncionamentoInt(){return situacao.funcionamento.getValue();}
+    //public int getSituacaoDaFilaInt(){return situacao.situacaoDaFila.getValue();}
+    //public int getFuncionamentoInt(){return situacao.funcionamento.getValue();}
     public String getultimaAtualizacao(){return ultimaAtualizacao;}
 
 
