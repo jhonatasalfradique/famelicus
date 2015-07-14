@@ -68,7 +68,7 @@ public class PontoAlimentacao{
     //public ArrayList<Voto> obterVotos(){return this.votos;}
 
     //getters
-    public int getId() {return id;}
+    public int getId() {return this.id;}
     public String getNome() {return nome;}
     public GeoPt getLocalizacao() {return localizacao;}
     public SituacaoDoPA getSituacao(){return situacao;}

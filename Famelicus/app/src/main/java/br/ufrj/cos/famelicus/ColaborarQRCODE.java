@@ -57,19 +57,37 @@ public class ColaborarQRCODE extends ActionBarActivity {
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if(result != null) {
             if(result.getContents() == null) {
-                Log.d("ColaborarQRCODE", "Cancelled scan");
-                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
-            } else {
-                Log.d("ColaborarQRCODE", "Scanned");
-                Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
-                id = result.getContents();
+                Log.d("ColaborarQRCODE", "Cancelado");
+                Toast.makeText(this, "Cancelado", Toast.LENGTH_LONG).show();
                 Uri contentUri = data.getData();
-                Intent intent = new Intent(this, ColaborarActivity.class);
+                Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra("id", id);
                 //intent.putExtra("nome", pa.getNome());
-                startActivity(new Intent(this, ColaborarActivity.class)
+                startActivity(new Intent(this, MainActivity.class)
                         .setData(contentUri));
+            } else {
+                Log.d("ColaborarQRCODE", "Scanned");
+                //Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+                id = result.getContents();
 
+                if(aplicativo.ValidarQRCode(id)){
+                    Uri contentUri = data.getData();
+
+                    Intent intent = new Intent(this, ColaborarActivity.class);
+                    intent.putExtra("id", id);
+                    //intent.putExtra("nome", pa.getNome());
+                    startActivity(new Intent(this, ColaborarActivity.class)
+                            .setData(contentUri));
+                } else{
+
+                    Toast.makeText(this, "QRCODE Inválido! Tente Novamente.", Toast.LENGTH_LONG).show();
+                    Uri contentUri = data.getData();
+                    Intent intent = new Intent(this, MainActivity.class);
+                    intent.putExtra("id", id);
+                    //intent.putExtra("nome", pa.getNome());
+                    startActivity(new Intent(this, MainActivity.class)
+                            .setData(contentUri));
+                }
 
             }
         } else {
