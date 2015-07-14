@@ -2,6 +2,12 @@ package br.ufrj.cos.famelicus;
 
 import android.util.Log;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Date;
 import java.util.List;
 import com.google.gson.Gson;
@@ -155,7 +161,7 @@ public class Proxy {
         }
         //casa do guilhereme -22.8400541f, -43.2706262f
         //casa de jhonatas -22.4979104f, 43.060696f
-        GeoPt geopt = new GeoPt(-22.8615359f, -43.2283747f);
+        GeoPt geopt = new GeoPt(-22.8400541f, -43.2706262f);
 
         int situacaoInt = 4;
         int estadoInt = 1;
@@ -163,7 +169,7 @@ public class Proxy {
         SituacaoDoPA situacao = new SituacaoDoPA(situacaoInt,estadoInt);
 
         PontoAlimentacao p = new PontoAlimentacao();
-        p.setNome("Esoo sala");
+        p.setNome("sala");
         p.setId(10);
         p.setLocalizacao(geopt);
         p.setSituacao(situacao);
@@ -178,4 +184,49 @@ public class Proxy {
         return jsonstring;
     }
 
+    public void InformarSituacao2(double versao, int paID, SituacaoDoPA situacao) throws Exception{
+        String str = "http://ec2-52-24-137-151.us-west-2.compute.amazonaws.com:8080/famelicus-servidor/api/adicionarVoto?";
+        str += "v=" + Double.toString(versao) +"&id=" + Integer.toString(paID) + "&funcionamento=" + situacao.getFuncionamento().toString();
+        str += "&situacaoDaFila=" + situacao.getSituacaoDaFila().toString();
+        URL url = new URL(str);
+        HttpURLConnection request = (HttpURLConnection) url.openConnection();
+        request.connect();
+        String status = request.getResponseMessage();
+        Log.d("response message", status);
+//        JsonParser jp = new JsonParser(); //from gson
+//        JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent()));
+//        JsonObject rootobj = root.getAsJsonObject();
+    }
+
+    public String retornarTudo() throws Exception{
+        String str = "http://ec2-52-24-137-151.us-west-2.compute.amazonaws.com:8080/famelicus-servidor/api/retornarTudo";
+        URL url = new URL(str);
+        HttpURLConnection request = (HttpURLConnection) url.openConnection();
+        request.connect();
+
+        Gson gson = new Gson();
+        JsonParser jp = new JsonParser(); //from gson
+        JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent()));
+        JsonObject rootobj = root.getAsJsonObject();
+        String jsonstring = gson.toJson(rootobj);
+        Log.d("Servidor", jsonstring);
+        return jsonstring;
+
+    }
+
+    public String retornarSituacao() throws IOException{
+        String str = "http://ec2-52-24-137-151.us-west-2.compute.amazonaws.com:8080/famelicus-servidor/api/retornarSituacao";
+        URL url = new URL(str);
+        HttpURLConnection request = (HttpURLConnection) url.openConnection();
+        request.connect();
+
+        Gson gson = new Gson();
+        JsonParser jp = new JsonParser(); //from gson
+        JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent()));
+        JsonObject rootobj = root.getAsJsonObject();
+        String jsonstring = gson.toJson(rootobj);
+        Log.d("Servidor situacao", jsonstring);
+        return jsonstring;
+
+    }
 }

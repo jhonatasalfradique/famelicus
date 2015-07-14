@@ -16,6 +16,7 @@ import android.os.IBinder;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,7 +30,7 @@ public class Aplicativo{
 	private ArrayList<PontoAlimentacao> ListaPA;
 
     //variavel pra guardar a posicao do pa na lista, ordenado pelo id
-    private ArrayList<Integer> posicao;
+    //private ArrayList<Integer> posicao;
 
 	private double VersaoBD;
 
@@ -48,17 +49,27 @@ public class Aplicativo{
     public Aplicativo(Context mContext){
         this.mContext = mContext;
         proxy = new Proxy();
-        posicao = new ArrayList<Integer>();
         ListaPA = new ArrayList();
+        //posicao = new ArrayList<Integer>();
         this.setListaPA(proxy.pedirSituacao());
+        this.setVersaoBD(proxy.pedirVersaoBD());
     }
 
 
     public Aplicativo() {
         proxy = new Proxy();
         ListaPA = new ArrayList();
-        posicao = new ArrayList<Integer>();
+        //posicao = new ArrayList<Integer>();
         this.setListaPA(proxy.pedirSituacao());
+        this.setVersaoBD(proxy.pedirVersaoBD());
+    }
+
+    public Aplicativo(String lista, double versao) {
+        proxy = new Proxy();
+        ListaPA = new ArrayList();
+        //posicao = new ArrayList<Integer>();
+        this.setListaPAString(lista);
+        this.setVersaoBD(versao);
     }
 
     public boolean ValidarQRCode(String id) {
@@ -196,7 +207,7 @@ public class Aplicativo{
         return VersaoBD;
     }
 
-    public void setVersaoBD(int versaoBD) {
+    public void setVersaoBD(double versaoBD) {
         VersaoBD = versaoBD;
     }
 
@@ -243,7 +254,7 @@ public class Aplicativo{
             int count =0;
             PontoAlimentacao pa = gson.fromJson(obj, PontoAlimentacao.class);
             ListaPA.add(pa);
-            posicao.add(pa.getId(),count);
+            //posicao.add(pa.getId(),count);
             Log.d("PA", pa.toString());
             count ++;
         }
@@ -254,7 +265,7 @@ public class Aplicativo{
         this.ListaPA = listaPA;
         for(PontoAlimentacao pa: ListaPA){
             int count =0;
-            posicao.add(pa.getId(),count);
+            //posicao.add(pa.getId(),count);
             Log.d("PA", pa.toString());
             count ++;
         }
@@ -270,6 +281,21 @@ public class Aplicativo{
 
         }
         return ret;
+    }
+
+    public String generateString(){
+        ArrayList<PontoAlimentacao> jsonarray = new ArrayList();
+        JsonElement listaPA;
+        Gson gson = new Gson();
+        JsonObject object = new JsonObject();
+        for(PontoAlimentacao pa:ListaPA){
+            jsonarray.add(pa);
+        }
+        listaPA = gson.toJsonTree(jsonarray);
+        object.add("PAs", listaPA);
+        String jsonstring = gson.toJson(object);
+        return jsonstring;
+
     }
 
 }
