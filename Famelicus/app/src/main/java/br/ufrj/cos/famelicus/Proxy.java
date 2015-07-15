@@ -2,12 +2,14 @@ package br.ufrj.cos.famelicus;
 
 import android.util.Log;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Date;
 import java.util.List;
 import com.google.gson.Gson;
@@ -184,13 +186,13 @@ public class Proxy {
         return jsonstring;
     }
 
-    public void InformarSituacao2(double versao, int paID, SituacaoDoPA situacao) throws Exception{
+    public void InformarSituacao2(double versao, int paID, SituacaoDoPA situacao) throws IOException{
         String str = "http://ec2-52-24-137-151.us-west-2.compute.amazonaws.com:8080/famelicus-servidor/api/adicionarVoto?";
         str += "v=" + Double.toString(versao) +"&id=" + Integer.toString(paID) + "&funcionamento=" + situacao.getFuncionamento().toString();
         str += "&situacaoDaFila=" + situacao.getSituacaoDaFila().toString();
         URL url = new URL(str);
         HttpURLConnection request = (HttpURLConnection) url.openConnection();
-        request.connect();
+  //      request.connect();
         String status = request.getResponseMessage();
         Log.d("response message", status);
 //        JsonParser jp = new JsonParser(); //from gson
@@ -198,11 +200,11 @@ public class Proxy {
 //        JsonObject rootobj = root.getAsJsonObject();
     }
 
-    public String retornarTudo() throws Exception{
-        String str = "http://ec2-52-24-137-151.us-west-2.compute.amazonaws.com:8080/famelicus-servidor/api/retornarTudo";
-        URL url = new URL(str);
-        HttpURLConnection request = (HttpURLConnection) url.openConnection();
-        request.connect();
+    public String retornarTudo() throws IOException{
+            String str = "http://ec2-52-24-137-151.us-west-2.compute.amazonaws.com:8080/famelicus-servidor/api/retornarTudo";
+            URL url = new URL(str);
+            HttpURLConnection request = (HttpURLConnection) url.openConnection();
+    //        request.connect();
 
         Gson gson = new Gson();
         JsonParser jp = new JsonParser(); //from gson
@@ -216,16 +218,50 @@ public class Proxy {
 
     public String retornarSituacao() throws IOException{
         String str = "http://ec2-52-24-137-151.us-west-2.compute.amazonaws.com:8080/famelicus-servidor/api/retornarSituacao";
-        URL url = new URL(str);
-        HttpURLConnection request = (HttpURLConnection) url.openConnection();
-        request.connect();
+        //URL url = new URL(str);
+                ///HttpURLConnection request = (HttpURLConnection) url.openConnection();
+        //URLConnection urlConn = url.openConnection();
+        //request.connect();
 
-        Gson gson = new Gson();
-        JsonParser jp = new JsonParser(); //from gson
-        JsonElement root = jp.parse(new InputStreamReader((InputStream) request.getContent()));
-        JsonObject rootobj = root.getAsJsonObject();
-        String jsonstring = gson.toJson(rootobj);
-        Log.d("Servidor situacao", jsonstring);
+//        Gson gson = new Gson();
+//        JsonParser jp = new JsonParser(); //from gson
+//        JsonElement root = jp.parse(new InputStreamReader((InputStream) urlConn.getInputStream()));
+//        JsonObject rootobj = root.getAsJsonObject();
+//        String jsonstring = gson.toJson(rootobj);
+//        Log.d("Servidor situacao", jsonstring);
+        InputStream in = null;
+        int response = -1;
+        String jsonstring = "";
+
+
+        try {
+            URL url = new URL(str);
+            URLConnection conn = url.openConnection();
+            HttpURLConnection httpConn = (HttpURLConnection) conn;
+
+            httpConn.setDoOutput(true);
+            httpConn.setDoInput(true);
+
+            httpConn.connect();
+
+            response = httpConn.getResponseCode();
+            if (response == HttpURLConnection.HTTP_OK) {
+                // in = httpConn.getInputStream();
+                Gson gson = new Gson();
+                JsonParser jp = new JsonParser(); //from gson
+                JsonElement root = jp.parse(new InputStreamReader((InputStream) httpConn.getContent()));
+                JsonObject rootobj = root.getAsJsonObject();
+                jsonstring = gson.toJson(rootobj);
+                Log.d("Servidor situacao", jsonstring);
+                in = new BufferedInputStream(httpConn.getInputStream());
+            } else {
+                throw new Exception();
+            }
+
+        } catch (Exception ex) {
+            throw new IOException("Error connecting");
+        }
+
         return jsonstring;
 
     }

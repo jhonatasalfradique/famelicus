@@ -26,6 +26,7 @@ package br.ufrj.cos.famelicus;
         import com.google.android.gms.location.LocationServices;
         import com.google.android.gms.common.api.PendingResult;
 
+        import java.io.IOException;
         import java.util.ArrayList;
 
 
@@ -74,9 +75,9 @@ public class MainActivity extends Activity
                 intent.putExtra("versao", versao);
 
                 try{
-                    famelicus.getProxy().InformarSituacao2(1.0, 1, famelicus.getListaPA().get(1).getSituacao());
+                    //famelicus.getProxy().InformarSituacao2(1.0, 1, famelicus.getListaPA().get(1).getSituacao());
                     Log.d("string proxy", famelicus.getProxy().retornarSituacao());
-                }catch(Exception e){Log.d("Exception", e.toString());}
+                }catch(IOException e){e.printStackTrace();}
                 startActivity(intent);
             }
         });
