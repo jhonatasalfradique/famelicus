@@ -23,13 +23,13 @@ public class ColaborarActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_colaborar);
 
-        double versao = Double.parseDouble(getIntent().getStringExtra("versao"));
+        final double versao = Double.parseDouble(getIntent().getStringExtra("versao"));
         String famelicusString = getIntent().getStringExtra("listaPA");
-        int id =  Integer.parseInt(this.getIntent().getStringExtra("id"));
+        final int id =  Integer.parseInt(this.getIntent().getStringExtra("id"));
 
         aplicativo = new Aplicativo(famelicusString, versao);
         //Log.d("estou aqui", "hello");
-        PontoAlimentacao pa = aplicativo.getPaByID(id);
+        final PontoAlimentacao pa = aplicativo.getPaByID(id);
 
         Spinner estado_spinner = (Spinner) findViewById(R.id.estado_spinner);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
@@ -58,6 +58,7 @@ public class ColaborarActivity extends Activity {
                 Toast.makeText(ColaborarActivity.this, "Colaboracao Enviada", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(ColaborarActivity.this, MainActivity.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+                aplicativo.InformarSituacao(versao, id, pa.getSituacao());
                 startActivity(intent);
 
             }

@@ -58,6 +58,7 @@ public class MainActivity extends Activity
         famelicus = new Aplicativo(this);
         //final String famelicusString = famelicus.generateString();
         //final String versao = Double.toString(famelicus.getVersaoBD());
+        //famelicus.getProxy().doInBackground("sdsd", "dsds");
 
         famelicus.LigarGPS();
 
@@ -74,10 +75,6 @@ public class MainActivity extends Activity
                 intent.putExtra("listaPA", famelicusString);
                 intent.putExtra("versao", versao);
 
-                try{
-                    //famelicus.getProxy().InformarSituacao2(1.0, 1, famelicus.getListaPA().get(1).getSituacao());
-                    Log.d("string proxy", famelicus.getProxy().retornarSituacao());
-                }catch(IOException e){e.printStackTrace();}
                 startActivity(intent);
             }
         });
@@ -218,4 +215,6 @@ public class MainActivity extends Activity
                 .addApi(LocationServices.API)
                 .build();
     }
+
+
 }

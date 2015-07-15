@@ -51,8 +51,9 @@ public class Aplicativo{
         proxy = new Proxy();
         ListaPA = new ArrayList();
         //posicao = new ArrayList<Integer>();
-        this.setListaPA(proxy.pedirSituacao());
-        this.setVersaoBD(proxy.pedirVersaoBD());
+        proxy.execute("1", "http://ec2-52-24-137-151.us-west-2.compute.amazonaws.com:8080/famelicus-servidor/api/retornarTudo");
+        this.setListaPAString(proxy.json);
+        this.setVersaoBDString(proxy.json);
     }
 
 
@@ -60,8 +61,9 @@ public class Aplicativo{
         proxy = new Proxy();
         ListaPA = new ArrayList();
         //posicao = new ArrayList<Integer>();
-        this.setListaPA(proxy.pedirSituacao());
-        this.setVersaoBD(proxy.pedirVersaoBD());
+        proxy.execute("1", "http://ec2-52-24-137-151.us-west-2.compute.amazonaws.com:8080/famelicus-servidor/api/retornarTudo");
+        this.setListaPAString(proxy.json);
+        this.setVersaoBDString(proxy.json);
     }
 
     public Aplicativo(String lista, double versao) {
@@ -98,6 +100,10 @@ public class Aplicativo{
 		return null;
 	}
 
+    public void InformarSituacao(double versao, int id, SituacaoDoPA situacao){
+        this.proxy.execute("3", Double.toString(versao), Integer.toString(id), situacao.getFuncionamento().toString(), situacao.getSituacaoDaFila().toString());
+
+    }
 
 	private void SolicitarColaboracao(PontoAlimentacao pontoAlimentacao) {
         Intent intent = new Intent(mContext, ColaborarActivity.class);
@@ -105,16 +111,6 @@ public class Aplicativo{
 
 	private List<Integer> ListarPAVisiveis() {
 		return null;
-	}
-
-    //acho q nao precisa, podemos chamar diretamente do proxy quando usuario clicar no botao, pois proxy faz parte do aplicativo
-	public void InformarSituacao() {
-
-	}
-
-    //acho q nao precisa, podemos chamar diretamente do proxy quando usuario clicar no botao, pois proxy faz parte do aplicativo
-	public void PedirSituacao() {
-
 	}
 
 	public boolean VerificarVersaoBD(double versaoBDServidor) {
@@ -211,6 +207,14 @@ public class Aplicativo{
         VersaoBD = versaoBD;
     }
 
+    public boolean setVersaoBDString(String versaojson){
+        JsonParser parser = new JsonParser();
+        JsonElement jObj = parser.parse(versaojson).getAsJsonObject().get("versao");
+        double versao = jObj.getAsDouble();
+        setVersaoBD(versao);
+        return true;
+    }
+
     public Proxy getProxy() {
         return proxy;
     }
@@ -242,22 +246,28 @@ public class Aplicativo{
     public void setListaPAString(String listaJson) {
         Gson gson = new Gson();
         JsonParser parser = new JsonParser();
-        JsonElement jObj = parser.parse(listaJson).getAsJsonObject().get("PAs");
-        JsonArray jArray = jObj.getAsJsonArray();
-        //Log.d("jArray", jArray.toString());
+        Log.d("lista json", listaJson);
+        JsonElement estadoroot = parser.parse(listaJson).getAsJsonObject().get("estado");
+        String estado = estadoroot.getAsString();
+        if(estado.equals("aberto")){
+            JsonElement jObj = parser.parse(listaJson).getAsJsonObject().get("PAs");
+            JsonArray jArray = jObj.getAsJsonArray();
+            //Log.d("jArray", jArray.toString());
 
-        if(!ListaPA.isEmpty()){
-            ListaPA.clear();
+            if(!ListaPA.isEmpty()){
+                ListaPA.clear();
+            }
+
+            for(JsonElement obj: jArray){
+                int count =0;
+                PontoAlimentacao pa = gson.fromJson(obj, PontoAlimentacao.class);
+                ListaPA.add(pa);
+                //posicao.add(pa.getId(),count);
+                Log.d("PA", pa.toString());
+                count ++;
+            }
         }
 
-        for(JsonElement obj: jArray){
-            int count =0;
-            PontoAlimentacao pa = gson.fromJson(obj, PontoAlimentacao.class);
-            ListaPA.add(pa);
-            //posicao.add(pa.getId(),count);
-            Log.d("PA", pa.toString());
-            count ++;
-        }
     }
 
     public void setListaPA(ArrayList<PontoAlimentacao> listaPA){
